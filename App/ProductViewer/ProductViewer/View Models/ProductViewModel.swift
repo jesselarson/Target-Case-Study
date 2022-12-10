@@ -25,7 +25,7 @@ struct ProductViewModel {
     }
     
     var regularPriceDisplayString: String {
-        return product.regularPrice.displayString
+        return "reg. \(product.regularPrice.displayString)"
     }
     
     var salePriceDisplayString: String? {
@@ -44,8 +44,8 @@ struct ProductViewModel {
         return "\(product.availability) in aisle \(product.aisle)"
     }
     
-//    var image: UIImage? {
-//        
-//    }
+    var imageUrl: String? {
+        return product.imageUrl
+    }
     
 }

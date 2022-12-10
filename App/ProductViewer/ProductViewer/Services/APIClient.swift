@@ -15,7 +15,7 @@ enum NetworkingError: Error {
 }
 
 struct APIClient {
-    func retrieveProdcuts(completion: @escaping (Result<[Product], Error>) -> Void) {
+    func retrieveDeals(completion: @escaping (Result<[Product], Error>) -> Void) {
         // TODO: Make this a configuration item. Create a new URLRequest and send to method
         let url = URL(string: "https://api.target.com/mobile_case_study_deals/v1/deals")!
         let request = URLRequest(url: url)

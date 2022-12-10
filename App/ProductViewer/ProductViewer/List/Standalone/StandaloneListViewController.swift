@@ -5,10 +5,13 @@
 import UIKit
 
 final class StandaloneListViewController: UIViewController {
+    private let refreshControl = UIRefreshControl()
+    private var dealsListViewModel: ProductListViewModel
+    
     private lazy var layout: UICollectionViewLayout = {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(40)
+            heightDimension: .estimated(172)
         )
         
         let item = NSCollectionLayoutItem(
@@ -17,14 +20,14 @@ final class StandaloneListViewController: UIViewController {
         
         item.edgeSpacing = .init(
             leading: nil,
-            top: .fixed(8),
+            top: nil,
             trailing: nil,
-            bottom: .fixed(8)
+            bottom: .fixed(2)
         )
         
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(40)
+            heightDimension: .estimated(172)
         )
         
         let group = NSCollectionLayoutGroup.horizontal(
@@ -55,6 +58,7 @@ final class StandaloneListViewController: UIViewController {
         collectionView.alwaysBounceVertical = true
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.refreshControl = refreshControl
         
         collectionView.register(
             StandaloneListItemViewCell.self,
@@ -75,14 +79,9 @@ final class StandaloneListViewController: UIViewController {
         
         view.addSubview(collectionView)
 
-        collectionView.contentInset = UIEdgeInsets(
-            top: 20.0,
-            left: 0.0,
-            bottom: 0.0,
-            right: 0.0
-        )
+        collectionView.contentInset = .zero
         
-        title = "checkout"
+        title = "List"
         
         view.addAndPinSubview(collectionView)
         
@@ -99,6 +98,8 @@ final class StandaloneListViewController: UIViewController {
                 }
             ),
         ]
+        
+        // fetchDeals()
     }
 }
 
@@ -165,10 +166,29 @@ extension StandaloneListViewController: UICollectionViewDataSource {
     }
 }
 
+private extension StandaloneListViewController {
+    func fetchDeals() {
+        APIClient().retrieveDeals { result in
+            switch result {
+                case .success(let products):
+                    let productListVM = ProductListViewModel(products: products)
+                    DispatchQueue.main.async {
+                        self.collectionView.reloadData()
+                        self.refreshControl.endRefreshing()
+                    }
+                case .failure(_):
+                    DispatchQueue.main.async {
+                        self.refreshControl.endRefreshing()
+                    }
+            }
+        }
+    }
+}
+
 private extension StandaloneListItemView {
     func configure(for listItem: ListItem) {
         titleLabel.text = listItem.title
-        priceLabel.text = listItem.price
+        salePriceLabel.text = listItem.price
         productImage.image = listItem.image
     }
 }

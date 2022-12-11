@@ -5,8 +5,7 @@
 import UIKit
 
 final class StandaloneListViewController: UIViewController {
-    private let refreshControl = UIRefreshControl()
-    private var dealsListViewModel: ProductListViewModel
+    private var dealsListViewModel: ProductListViewModel?
     
     private lazy var layout: UICollectionViewLayout = {
         let itemSize = NSCollectionLayoutSize(
@@ -58,7 +57,11 @@ final class StandaloneListViewController: UIViewController {
         collectionView.alwaysBounceVertical = true
         collectionView.dataSource = self
         collectionView.delegate = self
+        
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(fetchDeals), for: .valueChanged)
         collectionView.refreshControl = refreshControl
+        
         
         collectionView.register(
             StandaloneListItemViewCell.self,
@@ -104,10 +107,7 @@ final class StandaloneListViewController: UIViewController {
 }
 
 extension StandaloneListViewController: UICollectionViewDelegate {
-    func collectionView(
-        _ collectionView: UICollectionView,
-        didSelectItemAt indexPath: IndexPath
-    ) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard
             sections.indices.contains(indexPath.section),
             sections[indexPath.section].items.indices.contains(indexPath.row)
@@ -130,26 +130,20 @@ extension StandaloneListViewController: UICollectionViewDelegate {
 }
 
 extension StandaloneListViewController: UICollectionViewDataSource {
-    func collectionView(
-        _ collectionView: UICollectionView,
-        numberOfItemsInSection section: Int
-    ) -> Int {
-        guard
-            sections.indices.contains(section)
-        else {
-            return 0
-        }
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        guard let dealsListViewModel = dealsListViewModel else { return 0 }
         
-        return sections[section].items.count
+        return dealsListViewModel.numberOfSections()
     }
     
-    func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
-        guard
-            sections.indices.contains(indexPath.section),
-            sections[indexPath.section].items.indices.contains(indexPath.row),
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard let dealsListViewModel = dealsListViewModel else { return 0 }
+        
+        return dealsListViewModel.numberOfItemsInSection(section)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let product = dealsListViewModel?.productAtIndex(indexPath),
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: StandaloneListItemViewCell.reuseIdentifier,
                 for: indexPath
@@ -158,27 +152,26 @@ extension StandaloneListViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        let listItem = sections[indexPath.section].items[indexPath.row]
-        
-        cell.listItemView.configure(for: listItem)
+        cell.listItemView.configure(for: product)
         
         return cell
     }
 }
 
 private extension StandaloneListViewController {
-    func fetchDeals() {
+    @objc private func fetchDeals() {
         APIClient().retrieveDeals { result in
             switch result {
                 case .success(let products):
-                    let productListVM = ProductListViewModel(products: products)
+                    print(products)
+                    self.dealsListViewModel = ProductListViewModel(products: products)
                     DispatchQueue.main.async {
                         self.collectionView.reloadData()
-                        self.refreshControl.endRefreshing()
+                        self.collectionView.refreshControl?.endRefreshing()
                     }
                 case .failure(_):
                     DispatchQueue.main.async {
-                        self.refreshControl.endRefreshing()
+                        self.collectionView.refreshControl?.endRefreshing()
                     }
             }
         }
@@ -186,9 +179,11 @@ private extension StandaloneListViewController {
 }
 
 private extension StandaloneListItemView {
-    func configure(for listItem: ListItem) {
-        titleLabel.text = listItem.title
-        salePriceLabel.text = listItem.price
-        productImage.image = listItem.image
+    func configure(for productViewModel: ProductViewModel) {
+        salePriceLabel.text = productViewModel.salePriceDisplayString
+        regularPriceLabel.text = productViewModel.regularPriceDisplayString
+        fulfillmentLabel.text = productViewModel.fulfillment
+        titleLabel.text = productViewModel.title
+        availabiiltyLabel.text = productViewModel.availabilityDisplayString
     }
 }

@@ -29,7 +29,13 @@ struct ProductViewModel {
     }
     
     var salePriceDisplayString: String? {
-        return product.salePrice?.displayString
+        // When there is no salePrice, use the regular price
+        // Not much of a deal, but this matches the mocks
+        if let salePrice = product.salePrice {
+            return salePrice.displayString
+        } else {
+            return product.regularPrice.displayString
+        }
     }
     
     var fulfillment: String {

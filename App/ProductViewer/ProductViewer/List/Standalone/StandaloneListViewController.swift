@@ -52,7 +52,7 @@ final class StandaloneListViewController: UIViewController {
             collectionViewLayout: layout
         )
         
-        collectionView.backgroundColor = UIColor.background
+        collectionView.backgroundColor = UIColor.white
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.alwaysBounceVertical = true
@@ -89,21 +89,7 @@ final class StandaloneListViewController: UIViewController {
         
         view.addAndPinSubview(collectionView)
         
-        sections = [
-            ListSection(
-                index: 1,
-                items: (1..<10).map { index in
-                    ListItem(
-                        title: "Puppies!!!",
-                        price: "$9.99",
-                        image: UIImage(named: "\(index)"),
-                        index: index
-                    )
-                }
-            ),
-        ]
-        
-        // fetchDeals()
+        fetchDeals()
     }
 }
 

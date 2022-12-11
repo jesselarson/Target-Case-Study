@@ -3,6 +3,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class StandaloneListViewController: UIViewController {
     private var dealsListViewModel: ProductListViewModel?
@@ -180,6 +181,10 @@ private extension StandaloneListViewController {
 
 private extension StandaloneListItemView {
     func configure(for productViewModel: ProductViewModel) {
+        
+        let processor = DownsamplingImageProcessor(size: CGSize(width: 140, height: 140)) |> RoundCornerImageProcessor(cornerRadius: 20)
+        productImage.kf.setImage(with: productViewModel.imageUrl, options: [.processor(processor)])
+        
         salePriceLabel.text = productViewModel.salePriceDisplayString
         regularPriceLabel.text = productViewModel.regularPriceDisplayString
         fulfillmentLabel.text = productViewModel.fulfillment

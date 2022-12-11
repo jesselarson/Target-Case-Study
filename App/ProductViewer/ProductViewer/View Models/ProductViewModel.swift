@@ -50,8 +50,8 @@ struct ProductViewModel {
         return "\(product.availability) in aisle \(product.aisle)"
     }
     
-    var imageUrl: String? {
-        return product.imageUrl
+    var imageUrl: URL? {
+        return URL(string: product.imageUrl ?? "")
     }
     
 }

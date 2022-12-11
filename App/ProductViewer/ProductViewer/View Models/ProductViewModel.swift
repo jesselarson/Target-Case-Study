@@ -47,7 +47,11 @@ struct ProductViewModel {
     }
     
     var availabilityDisplayString: String {
-        return "\(product.availability) in aisle \(product.aisle)"
+        return product.availability
+    }
+    
+    var aisleDisplayString: String {
+        return "in aisle \(product.aisle.capitalized)"
     }
     
     var imageUrl: URL? {

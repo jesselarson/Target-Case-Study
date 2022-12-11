@@ -61,6 +61,16 @@ final class StandaloneListItemView: UIView {
         return label
     }()
     
+    let aisleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "In stock in aisle J12"
+        label.textColor = .grayMedium
+        label.font = .small
+        label.numberOfLines = 0
+        return label
+    }()
+    
     init() {
         super.init(frame: .zero)
         
@@ -74,9 +84,9 @@ final class StandaloneListItemView: UIView {
         addSubview(fulfillmentLabel)
         addSubview(titleLabel)
         addSubview(availabiiltyLabel)
+        addSubview(aisleLabel)
         
         // TODO: Do not use numbers for the constants
-        // TODO: Consider a vertical stackview for the right side of the cell
         NSLayoutConstraint.activate([
             heightAnchor.constraint(greaterThanOrEqualToConstant: 172),
             productImage.heightAnchor.constraint(lessThanOrEqualToConstant: 140),
@@ -101,8 +111,11 @@ final class StandaloneListItemView: UIView {
             titleLabel.bottomAnchor.constraint(equalTo: availabiiltyLabel.topAnchor, constant: -15),
             
             availabiiltyLabel.leadingAnchor.constraint(equalTo: salePriceLabel.leadingAnchor),
-            availabiiltyLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            availabiiltyLabel.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: -16)
+            availabiiltyLabel.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: -16),
+            
+            aisleLabel.leadingAnchor.constraint(equalTo: availabiiltyLabel.trailingAnchor, constant: 4),
+            aisleLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -20),
+            aisleLabel.bottomAnchor.constraint(equalTo: availabiiltyLabel.bottomAnchor)
         ])
     }
     

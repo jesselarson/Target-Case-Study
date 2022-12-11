@@ -164,7 +164,6 @@ private extension StandaloneListViewController {
         APIClient().retrieveDeals { result in
             switch result {
                 case .success(let products):
-                    print(products)
                     self.dealsListViewModel = ProductListViewModel(products: products)
                     DispatchQueue.main.async {
                         self.collectionView.reloadData()
@@ -190,5 +189,6 @@ private extension StandaloneListItemView {
         fulfillmentLabel.text = productViewModel.fulfillment
         titleLabel.text = productViewModel.title
         availabiiltyLabel.text = productViewModel.availabilityDisplayString
+        aisleLabel.text = productViewModel.aisleDisplayString
     }
 }

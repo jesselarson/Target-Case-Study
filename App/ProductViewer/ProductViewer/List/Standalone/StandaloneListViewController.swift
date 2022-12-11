@@ -139,15 +139,17 @@ extension StandaloneListViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        cell.listItemView.configure(for: product)
+        cell.listItemView.configure(for: product, hideSeparator: (indexPath.row == 0))
         
         return cell
     }
 }
 
+// TODO: weak self here?
 private extension StandaloneListViewController {
     @objc private func fetchDeals() {
-        APIClient().retrieveDeals { result in
+        APIClient().retrieveDeals { [weak self] result in
+            guard let self = self else { return }
             switch result {
                 case .success(let products):
                     self.dealsListViewModel = ProductListViewModel(products: products)
@@ -164,11 +166,15 @@ private extension StandaloneListViewController {
     }
 }
 
+// TODO: Why is this in the Controller?
+// TODO: Fix hardcoded width/height values
 private extension StandaloneListItemView {
-    func configure(for productViewModel: ProductViewModel) {
+    func configure(for productViewModel: ProductViewModel, hideSeparator: Bool = false) {
         
         let processor = DownsamplingImageProcessor(size: CGSize(width: 140, height: 140)) |> RoundCornerImageProcessor(cornerRadius: 20)
         productImage.kf.setImage(with: productViewModel.imageUrl, options: [.processor(processor)])
+        
+        separator.isHidden = hideSeparator
         
         salePriceLabel.text = productViewModel.salePriceDisplayString
         regularPriceLabel.text = productViewModel.regularPriceDisplayString

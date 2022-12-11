@@ -3,6 +3,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class StandaloneListItemView: UIView {
     let productImage: UIImageView = {
@@ -44,7 +45,7 @@ final class StandaloneListItemView: UIView {
     let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Some sort of title that describes the product for this deal"
+        label.text = "Product title"
         label.textColor = .black
         label.font = .medium
         label.numberOfLines = 0
@@ -54,7 +55,7 @@ final class StandaloneListItemView: UIView {
     let availabiiltyLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "In stock in aisle J12"
+        label.text = "In stock"
         label.textColor = .targetTextGreen
         label.font = .small
         label.numberOfLines = 0
@@ -64,11 +65,18 @@ final class StandaloneListItemView: UIView {
     let aisleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "In stock in aisle J12"
+        label.text = "in aisle J12"
         label.textColor = .grayMedium
         label.font = .small
         label.numberOfLines = 0
         return label
+    }()
+    
+    let separator: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor.thinBorderGray
+        return view
     }()
     
     init() {
@@ -85,10 +93,17 @@ final class StandaloneListItemView: UIView {
         addSubview(titleLabel)
         addSubview(availabiiltyLabel)
         addSubview(aisleLabel)
+        addSubview(separator)
         
         // TODO: Do not use numbers for the constants
         NSLayoutConstraint.activate([
             heightAnchor.constraint(greaterThanOrEqualToConstant: 172),
+            
+            separator.heightAnchor.constraint(equalToConstant: 1),
+            separator.leadingAnchor.constraint(equalTo: productImage.leadingAnchor),
+            separator.trailingAnchor.constraint(equalTo: trailingAnchor),
+            separator.topAnchor.constraint(equalTo: topAnchor),
+            
             productImage.heightAnchor.constraint(lessThanOrEqualToConstant: 140),
             productImage.widthAnchor.constraint(equalTo: productImage.heightAnchor),
             productImage.centerYAnchor.constraint(equalTo: centerYAnchor),
@@ -98,9 +113,9 @@ final class StandaloneListItemView: UIView {
             salePriceLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16),
             salePriceLabel.bottomAnchor.constraint(equalTo: fulfillmentLabel.topAnchor, constant: -5),
             
-            regularPriceLabel.leadingAnchor.constraint(equalTo: salePriceLabel.trailingAnchor, constant: 5),
+            regularPriceLabel.leadingAnchor.constraint(equalTo: salePriceLabel.trailingAnchor, constant: 6),
             regularPriceLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -20),
-            regularPriceLabel.bottomAnchor.constraint(equalTo: salePriceLabel.bottomAnchor, constant: -3),
+            regularPriceLabel.bottomAnchor.constraint(equalTo: salePriceLabel.bottomAnchor, constant: -2),
             
             fulfillmentLabel.leadingAnchor.constraint(equalTo: salePriceLabel.leadingAnchor),
             fulfillmentLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
@@ -145,5 +160,12 @@ class StandaloneListItemViewCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("Not implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        listItemView.separator.isHidden = false
+        listItemView.productImage.kf.cancelDownloadTask()
     }
 }

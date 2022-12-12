@@ -11,7 +11,7 @@ final class StandaloneListViewController: UIViewController {
     private lazy var layout: UICollectionViewLayout = {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(172)
+            heightDimension: .fractionalHeight(1.0)
         )
         
         let item = NSCollectionLayoutItem(
@@ -85,7 +85,7 @@ final class StandaloneListViewController: UIViewController {
 
         collectionView.contentInset = .zero
         
-        title = "List"
+        title = "Deals"
         
         view.addAndPinSubview(collectionView)
         
@@ -104,6 +104,9 @@ extension StandaloneListViewController: UICollectionViewDelegate {
         } onError: { error in
             print("fetchProductDetail onError")
         }
+        
+        let detailViewController = ProductDetailViewController(viewModel: productViewModel)
+        show(detailViewController, sender: self)
     }
 }
 

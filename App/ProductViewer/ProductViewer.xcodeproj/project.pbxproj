@@ -24,6 +24,10 @@
 		F14341622943BF3600D5B4DC /* ProductListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F14341612943BF3600D5B4DC /* ProductListViewModel.swift */; };
 		F14341642943D4A900D5B4DC /* ProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F14341632943D4A900D5B4DC /* ProductViewModel.swift */; };
 		F143416729456B0800D5B4DC /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = F143416629456B0800D5B4DC /* Kingfisher */; };
+		F1434181294785E800D5B4DC /* ProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1434180294785E800D5B4DC /* ProductDetailViewController.swift */; };
+		F143418329479A4600D5B4DC /* ProductImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F143418229479A4600D5B4DC /* ProductImageCollectionViewCell.swift */; };
+		F143418529479A5500D5B4DC /* ProductSummaryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F143418429479A5500D5B4DC /* ProductSummaryCollectionViewCell.swift */; };
+		F143418729479A6A00D5B4DC /* ProductDescriptionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F143418629479A6A00D5B4DC /* ProductDescriptionCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +60,10 @@
 		F143415E29439CDC00D5B4DC /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		F14341612943BF3600D5B4DC /* ProductListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListViewModel.swift; sourceTree = "<group>"; };
 		F14341632943D4A900D5B4DC /* ProductViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewModel.swift; sourceTree = "<group>"; };
+		F1434180294785E800D5B4DC /* ProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailViewController.swift; sourceTree = "<group>"; };
+		F143418229479A4600D5B4DC /* ProductImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		F143418429479A5500D5B4DC /* ProductSummaryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSummaryCollectionViewCell.swift; sourceTree = "<group>"; };
+		F143418629479A6A00D5B4DC /* ProductDescriptionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDescriptionCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +132,7 @@
 		5BEF08101D66328D006BF0C0 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				F143417F2947859200D5B4DC /* Detail - UIKit */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -180,6 +189,17 @@
 				F14341632943D4A900D5B4DC /* ProductViewModel.swift */,
 			);
 			path = "View Models";
+			sourceTree = "<group>";
+		};
+		F143417F2947859200D5B4DC /* Detail - UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				F1434180294785E800D5B4DC /* ProductDetailViewController.swift */,
+				F143418229479A4600D5B4DC /* ProductImageCollectionViewCell.swift */,
+				F143418429479A5500D5B4DC /* ProductSummaryCollectionViewCell.swift */,
+				F143418629479A6A00D5B4DC /* ProductDescriptionCollectionViewCell.swift */,
+			);
+			path = "Detail - UIKit";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -296,9 +316,13 @@
 				F143415A2942E3C300D5B4DC /* Product.swift in Sources */,
 				96D6F5FD280F47B0009338BF /* UIColor+Helpers.swift in Sources */,
 				F14341642943D4A900D5B4DC /* ProductViewModel.swift in Sources */,
+				F143418729479A6A00D5B4DC /* ProductDescriptionCollectionViewCell.swift in Sources */,
 				96D6F5F6280EE0C0009338BF /* Autolayout.swift in Sources */,
+				F143418529479A5500D5B4DC /* ProductSummaryCollectionViewCell.swift in Sources */,
 				F143415F29439CDC00D5B4DC /* APIClient.swift in Sources */,
 				5BEF081F1D663598006BF0C0 /* StandaloneListItemViewCell.swift in Sources */,
+				F1434181294785E800D5B4DC /* ProductDetailViewController.swift in Sources */,
+				F143418329479A4600D5B4DC /* ProductImageCollectionViewCell.swift in Sources */,
 				96F0032A27BC262C00D1818F /* DataSource.swift in Sources */,
 				F143415C2942E42800D5B4DC /* ProductList.swift in Sources */,
 				96D6F5FE280F47B0009338BF /* UIFont+Helpers.swift in Sources */,

@@ -81,13 +81,11 @@ final class StandaloneListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.addSubview(collectionView)
+        view.addAndPinSubview(collectionView)
 
         collectionView.contentInset = .zero
         
         title = "Deals"
-        
-        view.addAndPinSubview(collectionView)
         
         fetchDeals()
     }

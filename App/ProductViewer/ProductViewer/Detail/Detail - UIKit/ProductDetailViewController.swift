@@ -24,7 +24,7 @@ enum SectionLayouts: Int, CaseIterable {
     var height: CGFloat {
         switch self {
             case .image:
-                return 200.0
+                return 400.0
             case .summary:
                 return 100.0
             case .description:
@@ -46,6 +46,21 @@ enum SectionLayouts: Int, CaseIterable {
 
 final class ProductDetailViewController: UIViewController {
     private let productViewModel: ProductViewModel
+    
+    private let addToCartView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .white
+        
+//        // Add button
+//        let button = UIButton()
+//        button.titleLabel?.text = "Add to cart"
+//        button.backgroundColor = .targetRed
+//        button.
+//        view.addSubview(button)
+        
+        return view
+    }()
     
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(
@@ -92,16 +107,19 @@ final class ProductDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.addSubview(collectionView)
+        view.addAndPinSubview(collectionView)
+        view.addAndPinSubview(addToCartView, edges: [.left, .right, .bottom])
+        let heightConstraint = addToCartView.heightAnchor.constraint(equalToConstant: 140)
+        view.addConstraints([heightConstraint])
 
         collectionView.contentInset = .zero
         
         title = "Details"
         
-        view.addAndPinSubview(collectionView)
-        
         productViewModel.fetchProductDetail {
-            // reload collection view on main thread
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
         } onError: { error in
             // show error view on main thread
         }
@@ -112,13 +130,17 @@ final class ProductDetailViewController: UIViewController {
 extension ProductDetailViewController {
     private func createLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
-            let itemSize = NSCollectionLayoutSize(
+            guard let sectionLayout = SectionLayouts(rawValue: sectionIndex) else { return nil }
+            
+            let esimatedHeight = sectionLayout.height
+            
+            let layoutSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
-                heightDimension: .fractionalHeight(1.0)
+                heightDimension: .estimated(esimatedHeight)
             )
             
             let item = NSCollectionLayoutItem(
-                layoutSize: itemSize
+                layoutSize: layoutSize
             )
             
             item.edgeSpacing = .init(
@@ -128,17 +150,8 @@ extension ProductDetailViewController {
                 bottom: nil
             )
             
-            guard let sectionLayout = SectionLayouts(rawValue: sectionIndex) else {
-                return nil
-            }
-            
-            let groupSize = NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1.0),
-                heightDimension: .estimated(sectionLayout.height)
-            )
-            
             let group = NSCollectionLayoutGroup.horizontal(
-                layoutSize: groupSize,
+                layoutSize: layoutSize,
                 subitem: item,
                 count: 1
             )
@@ -213,7 +226,7 @@ extension ProductDetailViewController {
             return UICollectionViewCell()
         }
         
-        //configure
+        cell.itemView.configure(for: productViewModel)
         return cell
     }
     
@@ -226,7 +239,22 @@ extension ProductDetailViewController {
             return UICollectionViewCell()
         }
         
-        //configure
+        cell.itemView.configure(for: productViewModel)
         return cell
+    }
+}
+
+private extension ProductSummaryItemView {
+    func configure(for viewModel: ProductViewModel) {
+        titleLabel.text = viewModel.title
+        salePriceLabel.text = viewModel.salePriceDisplayString
+        regularPriceLabel.text = viewModel.regularPriceDisplayString
+        fulfillmentLabel.text = viewModel.fulfillment
+    }
+}
+
+private extension ProductDescriptionItemView {
+    func configure(for viewModel: ProductViewModel) {
+        descriptionLabel.text = viewModel.descripition
     }
 }

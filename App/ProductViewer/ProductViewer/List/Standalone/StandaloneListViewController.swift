@@ -6,7 +6,7 @@ import UIKit
 import Kingfisher
 
 final class StandaloneListViewController: UIViewController {
-    private var dealsListViewModel: ProductListViewModel?
+    private var dealsListViewModel = ProductListViewModel()
     
     private lazy var layout: UICollectionViewLayout = {
         let itemSize = NSCollectionLayoutSize(
@@ -95,42 +95,29 @@ final class StandaloneListViewController: UIViewController {
 
 extension StandaloneListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard
-            sections.indices.contains(indexPath.section),
-            sections[indexPath.section].items.indices.contains(indexPath.row)
-        else {
+        guard let productViewModel = dealsListViewModel.productAtIndex(indexPath) else {
             return
         }
         
-        let productListItem = sections[indexPath.section].items[indexPath.row]
-        
-        let alert = UIAlertController(
-            title: "Item \(productListItem.index) selected!",
-            message: "🐶",
-            preferredStyle: .alert
-        )
-        
-        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil) )
-        
-        present(alert, animated: true, completion: nil)
+        productViewModel.fetchProductDetail {
+            print("fetchProductDetail onSuccess")
+        } onError: { error in
+            print("fetchProductDetail onError")
+        }
     }
 }
 
 extension StandaloneListViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        guard let dealsListViewModel = dealsListViewModel else { return 0 }
-        
         return dealsListViewModel.numberOfSections()
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let dealsListViewModel = dealsListViewModel else { return 0 }
-        
         return dealsListViewModel.numberOfItemsInSection(section)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let product = dealsListViewModel?.productAtIndex(indexPath),
+        guard let productViewModel = dealsListViewModel.productAtIndex(indexPath),
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: StandaloneListItemViewCell.reuseIdentifier,
                 for: indexPath
@@ -139,30 +126,24 @@ extension StandaloneListViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        cell.listItemView.configure(for: product, hideSeparator: (indexPath.row == 0))
+        cell.listItemView.configure(for: productViewModel, hideSeparator: (indexPath.row == 0))
         
         return cell
     }
 }
 
-// TODO: weak self here?
 private extension StandaloneListViewController {
     @objc private func fetchDeals() {
-        APIClient().retrieveDeals { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-                case .success(let products):
-                    self.dealsListViewModel = ProductListViewModel(products: products)
-                    DispatchQueue.main.async {
-                        self.collectionView.reloadData()
-                        self.collectionView.refreshControl?.endRefreshing()
-                    }
-                case .failure(_):
-                    DispatchQueue.main.async {
-                        self.collectionView.refreshControl?.endRefreshing()
-                    }
+        dealsListViewModel.fetchDeals(onSuccess: { [weak self] in
+            DispatchQueue.main.async {
+                self?.collectionView.reloadData()
+                self?.collectionView.refreshControl?.endRefreshing()
             }
-        }
+        }, onError: { error in
+            DispatchQueue.main.async {
+                self.collectionView.refreshControl?.endRefreshing()
+            }
+        })
     }
 }
 

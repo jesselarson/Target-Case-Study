@@ -7,11 +7,18 @@
 //
 
 import Foundation
+import UIKit
 
-struct ProductListViewModel {
-    private let products: [Product]
+class ProductListViewModel {
+    private var products: [Product]
+    private let dealsUrl = "https://api.target.com/mobile_case_study_deals/v1/deals"
     
-    init(products: [Product]) {
+    init() {
+        products = [Product]()
+    }
+    
+    convenience init(products: [Product]) {
+        self.init()
         self.products = products
     }
     
@@ -28,6 +35,26 @@ struct ProductListViewModel {
             return ProductViewModel(product: products[indexPath.row])
         } else {
             return nil
+        }
+    }
+}
+
+extension ProductListViewModel {
+    func fetchDeals(onSuccess: @escaping () -> (), onError: @escaping (_ error: Error) -> ()) {
+        let url = URL(string: dealsUrl)!
+        APIClient().retrieveData(ProductList.self, url: url) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+                case .success(let deals):
+                    self.products = deals.products
+                    DispatchQueue.main.async {
+                        onSuccess()
+                    }
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        onError(error)
+                    }
+            }
         }
     }
 }

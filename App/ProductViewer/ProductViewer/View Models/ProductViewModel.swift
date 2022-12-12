@@ -9,8 +9,9 @@
 import Foundation
 import UIKit
 
-struct ProductViewModel {
-    private let product: Product
+class ProductViewModel {
+    private var product: Product
+    private let dealsUrl = "https://api.target.com/mobile_case_study_deals/v1/deals"
     
     init(product: Product) {
         self.product = product
@@ -58,4 +59,27 @@ struct ProductViewModel {
         return URL(string: product.imageUrl ?? "")
     }
     
+}
+
+extension ProductViewModel {
+    func fetchProductDetail(onSuccess: @escaping () -> (), onError: @escaping (_ error: Error) -> ()) {
+        let urlString = dealsUrl + "/\(id)"
+        let url = URL(string: urlString)!
+        APIClient().retrieveData(Product.self, url: url) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+                case .success(let product):
+                    print(product)
+                    self.product = product
+                    DispatchQueue.main.async {
+                        onSuccess()
+                    }
+                case .failure(let error):
+                    print(error)
+                    DispatchQueue.main.async {
+                        onError(error)
+                    }
+            }
+        }
+    }
 }

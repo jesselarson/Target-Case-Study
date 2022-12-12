@@ -47,13 +47,9 @@ extension ProductListViewModel {
             switch result {
                 case .success(let deals):
                     self.products = deals.products
-                    DispatchQueue.main.async {
-                        onSuccess()
-                    }
+                    onSuccess()
                 case .failure(let error):
-                    DispatchQueue.main.async {
-                        onError(error)
-                    }
+                    onError(error)
             }
         }
     }

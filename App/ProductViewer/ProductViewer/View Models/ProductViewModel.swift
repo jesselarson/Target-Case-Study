@@ -69,16 +69,10 @@ extension ProductViewModel {
             guard let self = self else { return }
             switch result {
                 case .success(let product):
-                    print(product)
                     self.product = product
-                    DispatchQueue.main.async {
-                        onSuccess()
-                    }
+                    onSuccess()
                 case .failure(let error):
-                    print(error)
-                    DispatchQueue.main.async {
-                        onError(error)
-                    }
+                    onError(error)
             }
         }
     }

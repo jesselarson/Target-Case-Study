@@ -121,7 +121,9 @@ final class ProductDetailViewController: UIViewController {
                 self.collectionView.reloadData()
             }
         } onError: { error in
-            // show error view on main thread
+            DispatchQueue.main.async {
+                // TODO: show error view on main thread
+            }
         }
     }
     

@@ -16,66 +16,26 @@ final class ProductDetailViewController: UIViewController {
         didSet {
             switch viewState {
                 case .loading:
-                    view.addAndPinSubviewToMargins(loadingView)
+                    view.addAndPinSubview(loadingView)
+                    loadingView.startAnimating()
                     errorView.removeFromSuperview()
                 case .error:
                     view.addAndPinSubview(errorView)
+                    loadingView.stopAnimating()
                     loadingView.removeFromSuperview()
                 case .content:
+                    loadingView.stopAnimating()
                     loadingView.removeFromSuperview()
                     errorView.removeFromSuperview()
             }
         }
     }
 
-    private let loadingView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .blue
-        return view
-    }()
+    private let loadingView = LoadingView()
 
-    private let errorView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .red
-        return view
-    }()
+    private let errorView = ErrorView()
     
-    private let addToCartView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .white
-        
-        // Round the top corners
-        view.layer.cornerRadius = 12
-        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        
-        // Add a drop shadow to the top
-        view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOpacity = 0.3
-        view.layer.shadowOffset = .zero
-        view.layer.shadowRadius = 6
-        
-        // Add button
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .targetRed
-        button.setTitle("Add to cart", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = .largeBold
-        button.layer.cornerRadius = 8
-        
-        view.addSubview(button)
-        NSLayoutConstraint.activate([
-            button.heightAnchor.constraint(equalToConstant: 44),
-            button.topAnchor.constraint(equalTo: view.topAnchor, constant: 16),
-            button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
-        ])
-        
-        return view
-    }()
+    private let addToCartView = AddToCartView()
     
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(
@@ -146,11 +106,24 @@ final class ProductDetailViewController: UIViewController {
             addToCartView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             addToCartView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+        
+        addToCartView.action = { [weak self] in
+            guard let self = self else { return }
+            self.performAddToCartAction()
+        }
 
         collectionView.contentInset = .zero
         
         title = "Details"
         
+        viewState = .loading
+        fetchDetails()
+    }
+    
+}
+
+extension ProductDetailViewController {
+    func fetchDetails() {
         productViewModel.fetchProductDetail { [weak self] in
             DispatchQueue.main.async {
                 self?.collectionView.reloadData()
@@ -162,7 +135,22 @@ final class ProductDetailViewController: UIViewController {
             }
         }
     }
-    
+}
+
+extension ProductDetailViewController {
+    func performAddToCartAction() {
+        DispatchQueue.main.async {
+            let alert = UIAlertController(
+                title: "Item added to your cart!",
+                message: "\(self.productViewModel.title) has been added to your cart.",
+                preferredStyle: .alert
+            )
+            
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil) )
+            
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
 }
 
 extension ProductDetailViewController {

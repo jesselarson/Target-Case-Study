@@ -155,8 +155,12 @@ private extension StandaloneListViewController {
 private extension StandaloneListItemView {
     func configure(for productViewModel: ProductViewModel, hideSeparator: Bool = false) {
         
+        let placeholderImage = UIImage(named: "placeholder")
         let processor = DownsamplingImageProcessor(size: CGSize(width: 140, height: 140)) |> RoundCornerImageProcessor(cornerRadius: 20)
-        productImage.kf.setImage(with: productViewModel.imageUrl, options: [.processor(processor)])
+        productImage.kf.setImage(
+            with: productViewModel.imageUrl,
+            placeholder: placeholderImage,
+            options: [.processor(processor)])
         
         separator.isHidden = hideSeparator
         

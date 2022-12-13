@@ -29,6 +29,7 @@
 		F143418729479A6A00D5B4DC /* ProductDescriptionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F143418629479A6A00D5B4DC /* ProductDescriptionCollectionViewCell.swift */; };
 		F153C3BB2948508E00F0CC99 /* DetailSectionConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F153C3BA2948508E00F0CC99 /* DetailSectionConfiguration.swift */; };
 		F153C3BD294851BD00F0CC99 /* APIClientError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F153C3BC294851BD00F0CC99 /* APIClientError.swift */; };
+		F153C3BF2948583700F0CC99 /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F153C3BE2948583700F0CC99 /* ViewState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,7 @@
 		F143418629479A6A00D5B4DC /* ProductDescriptionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDescriptionCollectionViewCell.swift; sourceTree = "<group>"; };
 		F153C3BA2948508E00F0CC99 /* DetailSectionConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSectionConfiguration.swift; sourceTree = "<group>"; };
 		F153C3BC294851BD00F0CC99 /* APIClientError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientError.swift; sourceTree = "<group>"; };
+		F153C3BE2948583700F0CC99 /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +174,7 @@
 				F14341572942E34B00D5B4DC /* Price.swift */,
 				F14341592942E3C300D5B4DC /* Product.swift */,
 				F143415B2942E42800D5B4DC /* ProductList.swift */,
+				F153C3BE2948583700F0CC99 /* ViewState.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -321,6 +324,7 @@
 				F14341642943D4A900D5B4DC /* ProductViewModel.swift in Sources */,
 				F143418729479A6A00D5B4DC /* ProductDescriptionCollectionViewCell.swift in Sources */,
 				96D6F5F6280EE0C0009338BF /* Autolayout.swift in Sources */,
+				F153C3BF2948583700F0CC99 /* ViewState.swift in Sources */,
 				F143418529479A5500D5B4DC /* ProductSummaryCollectionViewCell.swift in Sources */,
 				F143415F29439CDC00D5B4DC /* APIClient.swift in Sources */,
 				5BEF081F1D663598006BF0C0 /* StandaloneListItemViewCell.swift in Sources */,

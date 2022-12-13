@@ -8,6 +8,36 @@ import Kingfisher
 final class StandaloneListViewController: UIViewController {
     private var dealsListViewModel = ProductListViewModel()
     
+    private var viewState: ViewState = .loading {
+        didSet {
+            switch viewState {
+                case .loading:
+                    view.addAndPinSubviewToMargins(loadingView)
+                    errorView.removeFromSuperview()
+                case .error:
+                    view.addAndPinSubview(errorView)
+                    loadingView.removeFromSuperview()
+                case .content:
+                    loadingView.removeFromSuperview()
+                    errorView.removeFromSuperview()
+            }
+        }
+    }
+
+    private let loadingView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .blue
+        return view
+    }()
+
+    private let errorView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .red
+        return view
+    }()
+
     private lazy var layout: UICollectionViewLayout = {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
@@ -89,6 +119,7 @@ final class StandaloneListViewController: UIViewController {
         
         title = "Deals"
         
+        self.viewState = .loading
         fetchDeals()
     }
 }
@@ -132,13 +163,16 @@ extension StandaloneListViewController: UICollectionViewDataSource {
 private extension StandaloneListViewController {
     @objc private func fetchDeals() {
         dealsListViewModel.fetchDeals(onSuccess: { [weak self] in
-            DispatchQueue.main.async {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+//            DispatchQueue.main.async {
                 self?.collectionView.reloadData()
                 self?.collectionView.refreshControl?.endRefreshing()
+                self?.viewState = .content
             }
-        }, onError: { error in
+        }, onError: { [weak self] error in
             DispatchQueue.main.async {
-                self.collectionView.refreshControl?.endRefreshing()
+                self?.collectionView.refreshControl?.endRefreshing()
+                self?.viewState = .error
             }
         })
     }

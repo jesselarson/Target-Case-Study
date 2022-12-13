@@ -12,6 +12,36 @@ import Kingfisher
 final class ProductDetailViewController: UIViewController {
     private let productViewModel: ProductViewModel
     
+    private var viewState: ViewState = .loading {
+        didSet {
+            switch viewState {
+                case .loading:
+                    view.addAndPinSubviewToMargins(loadingView)
+                    errorView.removeFromSuperview()
+                case .error:
+                    view.addAndPinSubview(errorView)
+                    loadingView.removeFromSuperview()
+                case .content:
+                    loadingView.removeFromSuperview()
+                    errorView.removeFromSuperview()
+            }
+        }
+    }
+
+    private let loadingView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .blue
+        return view
+    }()
+
+    private let errorView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .red
+        return view
+    }()
+    
     private let addToCartView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -121,13 +151,14 @@ final class ProductDetailViewController: UIViewController {
         
         title = "Details"
         
-        productViewModel.fetchProductDetail {
+        productViewModel.fetchProductDetail { [weak self] in
             DispatchQueue.main.async {
-                self.collectionView.reloadData()
+                self?.collectionView.reloadData()
+                self?.viewState = .content
             }
-        } onError: { error in
+        } onError: { [weak self] error in
             DispatchQueue.main.async {
-                // TODO: show error view on main thread
+                self?.viewState = .error
             }
         }
     }

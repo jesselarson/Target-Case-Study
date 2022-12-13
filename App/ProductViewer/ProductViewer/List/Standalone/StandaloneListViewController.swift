@@ -99,12 +99,6 @@ extension StandaloneListViewController: UICollectionViewDelegate {
             return
         }
         
-        productViewModel.fetchProductDetail {
-            print("fetchProductDetail onSuccess")
-        } onError: { error in
-            print("fetchProductDetail onError")
-        }
-        
         let detailViewController = ProductDetailViewController(viewModel: productViewModel)
         show(detailViewController, sender: self)
     }

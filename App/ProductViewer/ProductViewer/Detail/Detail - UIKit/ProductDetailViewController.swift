@@ -107,6 +107,8 @@ final class ProductDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.backButtonDisplayMode = .minimal
+        
         view.addAndPinSubview(collectionView)
         view.addAndPinSubview(addToCartView, edges: [.left, .right, .bottom])
         let heightConstraint = addToCartView.heightAnchor.constraint(equalToConstant: 140)

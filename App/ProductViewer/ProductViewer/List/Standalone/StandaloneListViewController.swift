@@ -81,6 +81,8 @@ final class StandaloneListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.backButtonDisplayMode = .minimal
+        
         view.addAndPinSubview(collectionView)
 
         collectionView.contentInset = .zero

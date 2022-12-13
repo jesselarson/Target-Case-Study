@@ -30,6 +30,9 @@
 		F153C3BB2948508E00F0CC99 /* DetailSectionConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F153C3BA2948508E00F0CC99 /* DetailSectionConfiguration.swift */; };
 		F153C3BD294851BD00F0CC99 /* APIClientError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F153C3BC294851BD00F0CC99 /* APIClientError.swift */; };
 		F153C3BF2948583700F0CC99 /* ViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F153C3BE2948583700F0CC99 /* ViewState.swift */; };
+		F153C3C22948C8F400F0CC99 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F153C3C12948C8F400F0CC99 /* LoadingView.swift */; };
+		F153C3C42948C8FE00F0CC99 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F153C3C32948C8FE00F0CC99 /* ErrorView.swift */; };
+		F153C3C62948C90700F0CC99 /* AddToCartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F153C3C52948C90700F0CC99 /* AddToCartView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +71,9 @@
 		F153C3BA2948508E00F0CC99 /* DetailSectionConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSectionConfiguration.swift; sourceTree = "<group>"; };
 		F153C3BC294851BD00F0CC99 /* APIClientError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientError.swift; sourceTree = "<group>"; };
 		F153C3BE2948583700F0CC99 /* ViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewState.swift; sourceTree = "<group>"; };
+		F153C3C12948C8F400F0CC99 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		F153C3C32948C8FE00F0CC99 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
+		F153C3C52948C90700F0CC99 /* AddToCartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToCartView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +116,7 @@
 		5B259CC81D6630E0001D755F /* ProductViewer */ = {
 			isa = PBXGroup;
 			children = (
+				F153C3C02948B8E700F0CC99 /* Common UI */,
 				F143415D29439CCE00D5B4DC /* Services */,
 				F14341562942E33B00D5B4DC /* Models */,
 				F14341602943BF1C00D5B4DC /* View Models */,
@@ -206,6 +213,16 @@
 				F153C3BA2948508E00F0CC99 /* DetailSectionConfiguration.swift */,
 			);
 			path = "Detail - UIKit";
+			sourceTree = "<group>";
+		};
+		F153C3C02948B8E700F0CC99 /* Common UI */ = {
+			isa = PBXGroup;
+			children = (
+				F153C3C12948C8F400F0CC99 /* LoadingView.swift */,
+				F153C3C32948C8FE00F0CC99 /* ErrorView.swift */,
+				F153C3C52948C90700F0CC99 /* AddToCartView.swift */,
+			);
+			path = "Common UI";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -320,6 +337,7 @@
 				F14341582942E34B00D5B4DC /* Price.swift in Sources */,
 				F14341622943BF3600D5B4DC /* ProductListViewModel.swift in Sources */,
 				F143415A2942E3C300D5B4DC /* Product.swift in Sources */,
+				F153C3C42948C8FE00F0CC99 /* ErrorView.swift in Sources */,
 				96D6F5FD280F47B0009338BF /* UIColor+Helpers.swift in Sources */,
 				F14341642943D4A900D5B4DC /* ProductViewModel.swift in Sources */,
 				F143418729479A6A00D5B4DC /* ProductDescriptionCollectionViewCell.swift in Sources */,
@@ -329,6 +347,8 @@
 				F143415F29439CDC00D5B4DC /* APIClient.swift in Sources */,
 				5BEF081F1D663598006BF0C0 /* StandaloneListItemViewCell.swift in Sources */,
 				F1434181294785E800D5B4DC /* ProductDetailViewController.swift in Sources */,
+				F153C3C22948C8F400F0CC99 /* LoadingView.swift in Sources */,
+				F153C3C62948C90700F0CC99 /* AddToCartView.swift in Sources */,
 				96F0032A27BC262C00D1818F /* DataSource.swift in Sources */,
 				F143415C2942E42800D5B4DC /* ProductList.swift in Sources */,
 				96D6F5FE280F47B0009338BF /* UIFont+Helpers.swift in Sources */,

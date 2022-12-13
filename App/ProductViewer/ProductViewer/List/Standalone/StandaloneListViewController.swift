@@ -13,54 +13,23 @@ final class StandaloneListViewController: UIViewController {
             switch viewState {
                 case .loading:
                     view.addAndPinSubview(loadingView)
+                    loadingView.startAnimating()
                     errorView.removeFromSuperview()
                 case .error:
                     view.addAndPinSubview(errorView)
+                    loadingView.stopAnimating()
                     loadingView.removeFromSuperview()
                 case .content:
+                    loadingView.stopAnimating()
                     loadingView.removeFromSuperview()
                     errorView.removeFromSuperview()
             }
         }
     }
 
-    private let loadingView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .background
-        
-        // add ActivityIndicator
-        let activityIndicator = UIActivityIndicatorView(style: .large)
-        view.addAndCenterSubview(activityIndicator)
-        activityIndicator.startAnimating()
-        
-        return view
-    }()
+    private let loadingView = LoadingView()
 
-    private let errorView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .background
-        
-        // Add error message to view
-        let imageView = UIImageView(image: UIImage(systemName: "exclamationmark.triangle"))
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.tintColor = .grayMedium
-        imageView.contentMode = .scaleAspectFit
-        imageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        
-        let messageLabel = UILabel()
-        messageLabel.translatesAutoresizingMaskIntoConstraints = false
-        messageLabel.text = "Unable to load content"
-        
-        let stackView = UIStackView(arrangedSubviews: [imageView, messageLabel])
-        stackView.axis = .vertical
-        stackView.distribution = .fillProportionally
-        
-        view.addAndCenterSubview(stackView)
-        
-        return view
-    }()
+    private let errorView = ErrorView()
 
     private lazy var layout: UICollectionViewLayout = {
         let itemSize = NSCollectionLayoutSize(

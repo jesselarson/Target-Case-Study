@@ -106,8 +106,8 @@ final class StandaloneListItemView: UIView {
             separator.trailingAnchor.constraint(equalTo: trailingAnchor),
             separator.topAnchor.constraint(equalTo: topAnchor),
             
-            productImage.heightAnchor.constraint(lessThanOrEqualToConstant: 140),
-            productImage.widthAnchor.constraint(equalTo: productImage.heightAnchor),
+            productImage.widthAnchor.constraint(lessThanOrEqualToConstant: productImageWidth()),
+            productImage.heightAnchor.constraint(equalTo: productImage.widthAnchor),
             productImage.centerYAnchor.constraint(equalTo: centerYAnchor),
             productImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             
@@ -138,6 +138,12 @@ final class StandaloneListItemView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func productImageWidth() -> CGFloat {
+        let screenSize: CGRect = UIScreen.main.bounds
+        let screenWidth = screenSize.width
+        return screenWidth >= 375.0 ? 140.0 : 80.0
     }
 }
 

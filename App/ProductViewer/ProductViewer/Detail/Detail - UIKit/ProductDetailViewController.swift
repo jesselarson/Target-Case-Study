@@ -53,11 +53,11 @@ final class ProductDetailViewController: UIViewController {
         
         // Add a drop shadow to the top
         view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOpacity = 0.5
+        view.layer.shadowOpacity = 0.3
         view.layer.shadowOffset = .zero
-        view.layer.shadowRadius = 5
+        view.layer.shadowRadius = 6
         
-//        // Add button
+        // Add button
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .targetRed
@@ -267,9 +267,6 @@ extension ProductDetailViewController {
 
 private extension ProductSummaryItemView {
     func configure(for viewModel: ProductViewModel) {
-//        let processor = RoundCornerImageProcessor(cornerRadius: 20)
-//        productImage.kf.setImage(with: viewModel.imageUrl, options: [.processor(processor)])
-        
         productImage.kf.setImage(with: viewModel.imageUrl)
         titleLabel.text = viewModel.title
         salePriceLabel.text = viewModel.salePriceDisplayString

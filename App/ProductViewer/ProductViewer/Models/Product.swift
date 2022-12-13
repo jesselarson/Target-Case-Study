@@ -18,4 +18,16 @@ struct Product: Codable {
     var regularPrice: Price
     var salePrice: Price?
     var title: String
+    
+    enum CodingKeys: String, CodingKey {
+        case aisle
+        case availability
+        case description
+        case fulfillment
+        case id
+        case imageUrl = "image_url"
+        case regularPrice = "regular_price"
+        case salePrice = "sale_price"
+        case title
+    }
 }

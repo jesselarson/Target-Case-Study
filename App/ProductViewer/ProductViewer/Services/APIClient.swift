@@ -33,12 +33,8 @@ struct APIClient {
                     return
                 }
                 
-                let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                
                 do {
-                    let results = try decoder.decode(type, from: data)
-                    completion(.success(results))
+                    let results = try JSONDecoder().decode(type, from: data)
                 } catch {
                     completion(.failure(NetworkingError.decodingError)) // TODO: pass decoding error back
                 }

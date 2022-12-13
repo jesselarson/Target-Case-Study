@@ -10,8 +10,10 @@ import UIKit
 import Kingfisher
 
 final class ProductDetailViewController: UIViewController {
+    /// View model representing the product being displayed
     private let productViewModel: ProductViewModel
     
+    /// State object representing the current view state of the controller
     private var viewState: ViewState = .loading {
         didSet {
             switch viewState {
@@ -31,12 +33,18 @@ final class ProductDetailViewController: UIViewController {
         }
     }
 
+    /// LoadingView instance. Set `viewState = .loading` to show
     private let loadingView = LoadingView()
 
+    /// ErrorView instance. Set `viewState = .error` to show a default error.
+    /// Set `errorView.errorType` to display a specific error message.
     private let errorView = ErrorView()
     
+    // AddToCartView overlay instance. Set the `action` property of the view
+    // to perform an action when the view's button is tapped
     private let addToCartView = AddToCartView()
     
+    /// The collection view that backs the detail view sections
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(
             frame: .zero,
@@ -123,6 +131,12 @@ final class ProductDetailViewController: UIViewController {
 }
 
 extension ProductDetailViewController {
+    /// Asks the product view model to retrieve the detail object for the product. This call returns
+    /// more description data than the value returned on the deals list response.
+    ///
+    /// If a successful response, the collection view is reloaded to show the updated product details
+    /// If a failed response for an item not found, a specific error message is show. Otherwise, a generic
+    /// error is displayed.
     func fetchDetails() {
         productViewModel.fetchProductDetail(onSuccess: { [weak self] in
             
@@ -155,6 +169,7 @@ extension ProductDetailViewController {
 }
 
 extension ProductDetailViewController {
+    /// Closure representing the action desired when the user taps the Add to cart button
     func performAddToCartAction() {
         DispatchQueue.main.async {
             let alert = UIAlertController(
@@ -171,6 +186,9 @@ extension ProductDetailViewController {
 }
 
 extension ProductDetailViewController {
+    /// Creates the collection view layout using the sectionProvider pattern.
+    ///
+    /// Sections are described by the `DetailSectionConfiguration` enum
     private func createLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
             guard let sectionConfig = DetailSectionConfiguration(rawValue: sectionIndex) else { return nil }
@@ -240,6 +258,8 @@ extension ProductDetailViewController: UICollectionViewDataSource {
 }
 
 extension ProductDetailViewController {
+    /// Dequeues a `ProductSummaryCollectionViewCell` and calls the `configure` method associated with it
+    /// - parameter indexPath: The `indexPath` of the collection view item we will be displaying
     func configureProductSummaryCell(for indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: ProductSummaryCollectionViewCell.reuseIdentifier,
@@ -253,6 +273,8 @@ extension ProductDetailViewController {
         return cell
     }
     
+    /// Dequeues a `ProductDescriptionCollectionViewCell` and calls the `configure` method associated with it
+    /// - parameter indexPath: The `indexPath` of the collection view item we will be displaying
     func configureProductDescriptionCell(for indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: ProductDescriptionCollectionViewCell.reuseIdentifier,
@@ -268,6 +290,8 @@ extension ProductDetailViewController {
 }
 
 private extension ProductSummaryItemView {
+    /// Maps the product view model data onto the list cell used to display the summary section details
+    /// - parameter productViewModel: The view model for the product we want to display
     func configure(for viewModel: ProductViewModel) {
         productImage.kf.setImage(with: viewModel.imageUrl)
         titleLabel.text = viewModel.title
@@ -278,6 +302,8 @@ private extension ProductSummaryItemView {
 }
 
 private extension ProductDescriptionItemView {
+    /// Maps the product view model data onto the list cell used to display the description section details
+    /// - parameter productViewModel: The view model for the product we want to display
     func configure(for viewModel: ProductViewModel) {
         descriptionLabel.text = viewModel.descripition
     }

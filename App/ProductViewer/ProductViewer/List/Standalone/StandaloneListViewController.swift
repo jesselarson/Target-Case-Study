@@ -6,10 +6,11 @@ import UIKit
 import Kingfisher
 
 final class StandaloneListViewController: UIViewController {
+    
+    /// View model representing the deals objects
     private var dealsListViewModel = ProductListViewModel()
     
-    // Manage all view transitions within this property to avoid
-    //  the view getting into an inconsistent state
+    /// State object representing the current view state of the controller
     private var viewState: ViewState = .loading {
         didSet {
             switch viewState {
@@ -34,10 +35,14 @@ final class StandaloneListViewController: UIViewController {
         }
     }
 
+    /// LoadingView instance. Set `viewState = .loading` to show
     private let loadingView = LoadingView()
 
+    /// ErrorView instance. Set `viewState = .error` to show a default error.
+    /// Set `errorView.errorType` to display a specific error message.
     private let errorView = ErrorView()
 
+    /// The composable layout object that drives the configuration of the collection view
     private lazy var layout: UICollectionViewLayout = {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
@@ -76,6 +81,7 @@ final class StandaloneListViewController: UIViewController {
         return layout
     }()
     
+    /// The collection view that backs the list of deals displayed to the user
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(
             frame: .zero,
@@ -102,12 +108,6 @@ final class StandaloneListViewController: UIViewController {
         return collectionView
     }()
     
-    private var sections: [ListSection] = [] {
-        didSet {
-            collectionView.reloadData()
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -120,6 +120,25 @@ final class StandaloneListViewController: UIViewController {
         
         self.viewState = .loading
         fetchDeals()
+    }
+}
+
+private extension StandaloneListViewController {
+    /// Asks the view model to retrieve the full set of deals from the server
+    /// If a successful response, the collection view is reloaded to show the new deals
+    /// If a failed response, an error screen is shown
+    @objc private func fetchDeals() {
+        dealsListViewModel.fetchDeals(onSuccess: { [weak self] in
+            DispatchQueue.main.async {
+                self?.collectionView.reloadData()
+                self?.viewState = .content
+            }
+        }, onError: { [weak self] error in
+            DispatchQueue.main.async {
+                self?.errorView.setError(.unknown)
+                self?.viewState = .error
+            }
+        })
     }
 }
 
@@ -159,23 +178,11 @@ extension StandaloneListViewController: UICollectionViewDataSource {
     }
 }
 
-private extension StandaloneListViewController {
-    @objc private func fetchDeals() {
-        dealsListViewModel.fetchDeals(onSuccess: { [weak self] in
-            DispatchQueue.main.async {
-                self?.collectionView.reloadData()
-                self?.viewState = .content
-            }
-        }, onError: { [weak self] error in
-            DispatchQueue.main.async {
-                self?.viewState = .error
-            }
-        })
-    }
-}
-
 // TODO: Fix hardcoded width/height values
 private extension StandaloneListItemView {
+    /// Maps the product view model data onto the list cell used to display the deal for that product.
+    /// - parameter productViewModel: The view model for the product we want to display
+    /// - parameter hideSeparator: A boolean that controls if a separator view is shown at the top of the cell
     func configure(for productViewModel: ProductViewModel, hideSeparator: Bool = false) {
         
         let placeholderImage = UIImage(named: "placeholder")

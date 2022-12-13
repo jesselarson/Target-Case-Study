@@ -10,23 +10,20 @@ import UIKit
 import Kingfisher
 
 enum SectionLayouts: Int, CaseIterable {
-    case image
     case summary
     case description
     
     var itemCount: Int {
         switch self {
-            case .image, .summary, .description:
+            case .summary, .description:
                 return 1
         }
     }
     
     var estimatedHeight: CGFloat {
         switch self {
-            case .image:
-                return 390.0
             case .summary:
-                return 100.0
+                return 490.0
             case .description:
                 return 200.0
         }
@@ -83,11 +80,6 @@ final class ProductDetailViewController: UIViewController {
         collectionView.alwaysBounceVertical = true
         collectionView.dataSource = self
         collectionView.delegate = self
-        
-        collectionView.register(
-            ProductImageCollectionViewCell.self,
-            forCellWithReuseIdentifier: ProductImageCollectionViewCell.reuseIdentifier
-        )
         
         collectionView.register(
             ProductSummaryCollectionViewCell.self,
@@ -191,6 +183,7 @@ extension ProductDetailViewController {
                 group: group
             )
             
+            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 20,trailing: 0)
             return section
         }
         
@@ -220,8 +213,6 @@ extension ProductDetailViewController: UICollectionViewDataSource {
         
         var cell: UICollectionViewCell
         switch sectionLayout {
-            case .image:
-                cell = configureProductImageCell(for: indexPath)
             case .summary:
                 cell = configureProductSummaryCell(for: indexPath)
             case .description:
@@ -233,19 +224,6 @@ extension ProductDetailViewController: UICollectionViewDataSource {
 }
 
 extension ProductDetailViewController {
-    func configureProductImageCell(for indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: ProductImageCollectionViewCell.reuseIdentifier,
-                for: indexPath
-            ) as? ProductImageCollectionViewCell
-        else {
-            return UICollectionViewCell()
-        }
-        
-        cell.itemView.configure(for: productViewModel)
-        return cell
-    }
-    
     func configureProductSummaryCell(for indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: ProductSummaryCollectionViewCell.reuseIdentifier,
@@ -273,15 +251,11 @@ extension ProductDetailViewController {
     }
 }
 
-private extension ProductImageItemView {
+private extension ProductSummaryItemView {
     func configure(for viewModel: ProductViewModel) {
         let processor = RoundCornerImageProcessor(cornerRadius: 20)
         productImage.kf.setImage(with: viewModel.imageUrl, options: [.processor(processor)])
-    }
-}
-
-private extension ProductSummaryItemView {
-    func configure(for viewModel: ProductViewModel) {
+        
         titleLabel.text = viewModel.title
         salePriceLabel.text = viewModel.salePriceDisplayString
         regularPriceLabel.text = viewModel.regularPriceDisplayString

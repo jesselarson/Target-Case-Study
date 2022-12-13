@@ -9,6 +9,14 @@
 import UIKit
 
 final class ProductSummaryItemView: UIView {
+    let productImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        return imageView
+    }()
+    
     let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -63,6 +71,7 @@ final class ProductSummaryItemView: UIView {
         
         backgroundColor = .white
         
+        addSubview(productImage)
         addSubview(titleLabel)
         addSubview(salePriceLabel)
         addSubview(regularPriceLabel)
@@ -71,7 +80,12 @@ final class ProductSummaryItemView: UIView {
         
         // TODO: Do not use numbers for the constants
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16),
+            productImage.widthAnchor.constraint(equalTo: widthAnchor),
+            productImage.heightAnchor.constraint(equalTo: widthAnchor),
+            productImage.leadingAnchor.constraint(equalTo: leadingAnchor),
+            productImage.topAnchor.constraint(equalTo: topAnchor),
+            
+            titleLabel.topAnchor.constraint(equalTo: productImage.bottomAnchor, constant: 16),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             titleLabel.bottomAnchor.constraint(equalTo: salePriceLabel.topAnchor, constant: -15),

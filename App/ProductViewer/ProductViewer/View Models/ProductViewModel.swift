@@ -65,6 +65,7 @@ extension ProductViewModel {
     func fetchProductDetail(onSuccess: @escaping () -> (), onError: @escaping (_ error: Error) -> ()) {
         let urlString = dealsUrl + "/\(id)"
         let url = URL(string: urlString)!
+        
         APIClient().retrieveData(Product.self, url: url) { [weak self] result in
             guard let self = self else { return }
             switch result {

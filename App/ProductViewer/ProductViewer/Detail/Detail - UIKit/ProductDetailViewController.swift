@@ -131,6 +131,18 @@ extension ProductDetailViewController {
             }
         } onError: { [weak self] error in
             DispatchQueue.main.async {
+                // Show a unique error for a 404 response with an ITEM_NOT_FOUND code in the reponse body
+                var errorType: ErrorType = .unknown
+                if let apiError = error as? APIClientError {
+                    switch apiError {
+                        case .unsuccessfulResponse(404, "ITEM_NOT_FOUND", _):
+                            errorType = .itemNotFound
+                        case .badUrl, .parsing(_), .unsuccessfulResponse(_, _, _), .unknown:
+                            errorType = .unknown
+                    }
+                }
+                
+                self?.errorView.setError(errorType)
                 self?.viewState = .error
             }
         }

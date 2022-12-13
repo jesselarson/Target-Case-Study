@@ -9,7 +9,22 @@
 import Foundation
 import UIKit
 
+public enum ErrorType {
+    case itemNotFound
+    case unknown
+    
+    var displayMessage: String {
+        switch self {
+            case .itemNotFound:
+                return "This item is no longer available"
+            case .unknown:
+                return "Unable to load content"
+        }
+    }
+}
+
 final class ErrorView: UIView {
+    
     private let warningImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(systemName: "exclamationmark.triangle"))
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -26,10 +41,13 @@ final class ErrorView: UIView {
         return label
     }()
     
+    private var errorType: ErrorType = .unknown
+    
     init() {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .background
+        setError(.unknown)
         
         // Add error message to view
         let stackView = UIStackView(
@@ -44,5 +62,11 @@ final class ErrorView: UIView {
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("NSCoder not implemented")
+    }
+}
+
+extension ErrorView {
+    public func setError(_ type: ErrorType) {
+        errorMessageLabel.text = type.displayMessage
     }
 }

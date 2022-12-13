@@ -10,7 +10,7 @@ import Foundation
 
 enum APIClientError: Error {
     case badUrl
-    case unsuccessfulResponse(statusCode: Int)
+    case unsuccessfulResponse(statusCode: Int, code: String?, message: String?)
     case parsing(Error)
     case unknown
 }

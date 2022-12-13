@@ -33,6 +33,7 @@
 		F153C3C22948C8F400F0CC99 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F153C3C12948C8F400F0CC99 /* LoadingView.swift */; };
 		F153C3C42948C8FE00F0CC99 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F153C3C32948C8FE00F0CC99 /* ErrorView.swift */; };
 		F153C3C62948C90700F0CC99 /* AddToCartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F153C3C52948C90700F0CC99 /* AddToCartView.swift */; };
+		F153C3C82948E2AA00F0CC99 /* ItemNotFoundResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F153C3C72948E2AA00F0CC99 /* ItemNotFoundResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		F153C3C12948C8F400F0CC99 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		F153C3C32948C8FE00F0CC99 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
 		F153C3C52948C90700F0CC99 /* AddToCartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToCartView.swift; sourceTree = "<group>"; };
+		F153C3C72948E2AA00F0CC99 /* ItemNotFoundResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemNotFoundResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +184,7 @@
 				F14341592942E3C300D5B4DC /* Product.swift */,
 				F143415B2942E42800D5B4DC /* ProductList.swift */,
 				F153C3BE2948583700F0CC99 /* ViewState.swift */,
+				F153C3C72948E2AA00F0CC99 /* ItemNotFoundResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -337,6 +340,7 @@
 				F14341582942E34B00D5B4DC /* Price.swift in Sources */,
 				F14341622943BF3600D5B4DC /* ProductListViewModel.swift in Sources */,
 				F143415A2942E3C300D5B4DC /* Product.swift in Sources */,
+				F153C3C82948E2AA00F0CC99 /* ItemNotFoundResponse.swift in Sources */,
 				F153C3C42948C8FE00F0CC99 /* ErrorView.swift in Sources */,
 				96D6F5FD280F47B0009338BF /* UIColor+Helpers.swift in Sources */,
 				F14341642943D4A900D5B4DC /* ProductViewModel.swift in Sources */,

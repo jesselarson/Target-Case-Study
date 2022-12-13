@@ -8,6 +8,8 @@ import Kingfisher
 final class StandaloneListViewController: UIViewController {
     private var dealsListViewModel = ProductListViewModel()
     
+    // Manage all view transitions within this property to avoid
+    //  the view getting into an inconsistent state
     private var viewState: ViewState = .loading {
         didSet {
             switch viewState {
@@ -15,14 +17,19 @@ final class StandaloneListViewController: UIViewController {
                     view.addAndPinSubview(loadingView)
                     loadingView.startAnimating()
                     errorView.removeFromSuperview()
+                    collectionView.refreshControl?.endRefreshing()
+                    
                 case .error:
                     view.addAndPinSubview(errorView)
                     loadingView.stopAnimating()
                     loadingView.removeFromSuperview()
+                    collectionView.refreshControl?.endRefreshing()
+                    
                 case .content:
                     loadingView.stopAnimating()
                     loadingView.removeFromSuperview()
                     errorView.removeFromSuperview()
+                    collectionView.refreshControl?.endRefreshing()
             }
         }
     }
@@ -104,13 +111,12 @@ final class StandaloneListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        title = "Deals"
         navigationItem.backButtonDisplayMode = .minimal
         
         view.addAndPinSubview(collectionView)
 
         collectionView.contentInset = .zero
-        
-        title = "Deals"
         
         self.viewState = .loading
         fetchDeals()
@@ -158,19 +164,16 @@ private extension StandaloneListViewController {
         dealsListViewModel.fetchDeals(onSuccess: { [weak self] in
             DispatchQueue.main.async {
                 self?.collectionView.reloadData()
-                self?.collectionView.refreshControl?.endRefreshing()
                 self?.viewState = .content
             }
         }, onError: { [weak self] error in
             DispatchQueue.main.async {
-                self?.collectionView.refreshControl?.endRefreshing()
                 self?.viewState = .error
             }
         })
     }
 }
 
-// TODO: Why is this in the Controller?
 // TODO: Fix hardcoded width/height values
 private extension StandaloneListItemView {
     func configure(for productViewModel: ProductViewModel, hideSeparator: Bool = false) {

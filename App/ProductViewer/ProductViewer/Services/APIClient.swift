@@ -20,7 +20,7 @@ struct APIClient {
         let request = URLRequest(url: url)
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             
-            // Some sort of networking error occurred before the request could complete
+            // Some sort of transient network error occurred before the request could complete
             if let error = error {
                 completion(
                     .failure(error)

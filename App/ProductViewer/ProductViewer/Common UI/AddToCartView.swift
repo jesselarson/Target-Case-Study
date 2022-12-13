@@ -58,11 +58,7 @@ final class AddToCartView: UIView {
 
 extension AddToCartView {
     @objc func addToCartButtonTapped(_ sender: UIButton) {
-        guard let action = action else {
-            // TODO: remove this print
-            print("Add to cart button tapped, but no action was set")
-            return
-        }
+        guard let action = action else { return }
 
         action()
     }

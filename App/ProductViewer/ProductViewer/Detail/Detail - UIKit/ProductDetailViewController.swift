@@ -48,7 +48,6 @@ final class ProductDetailViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.alwaysBounceVertical = true
         collectionView.dataSource = self
-        collectionView.delegate = self
         
         collectionView.register(
             ProductSummaryCollectionViewCell.self,
@@ -76,9 +75,11 @@ final class ProductDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.background
+        
+        title = "Details"
         navigationItem.backButtonDisplayMode = .minimal
         
+        view.backgroundColor = UIColor.background
         view.addSubview(collectionView)
         view.addSubview(addToCartView)
         
@@ -114,8 +115,7 @@ final class ProductDetailViewController: UIViewController {
 
         collectionView.contentInset = .zero
         
-        title = "Details"
-        
+        // Finally, set the viewState to loading and kick off a request to retreive the product detail
         viewState = .loading
         fetchDetails()
     }
@@ -124,15 +124,20 @@ final class ProductDetailViewController: UIViewController {
 
 extension ProductDetailViewController {
     func fetchDetails() {
-        productViewModel.fetchProductDetail { [weak self] in
+        productViewModel.fetchProductDetail(onSuccess: { [weak self] in
+            
+            // On success, reload the collection view to display the latest content
+            //     and set the viewState to content to clear any loading or error screens
             DispatchQueue.main.async {
                 self?.collectionView.reloadData()
                 self?.viewState = .content
             }
-        } onError: { [weak self] error in
+        }, onError: { [weak self] error in
+            
+            // On error, show a specific error message for a 404 response with an ITEM_NOT_FOUND code in the reponse body
             DispatchQueue.main.async {
-                // Show a unique error for a 404 response with an ITEM_NOT_FOUND code in the reponse body
                 var errorType: ErrorType = .unknown
+                
                 if let apiError = error as? APIClientError {
                     switch apiError {
                         case .unsuccessfulResponse(404, "ITEM_NOT_FOUND", _):
@@ -145,7 +150,7 @@ extension ProductDetailViewController {
                 self?.errorView.setError(errorType)
                 self?.viewState = .error
             }
-        }
+        })
     }
 }
 
@@ -168,9 +173,9 @@ extension ProductDetailViewController {
 extension ProductDetailViewController {
     private func createLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
-            guard let sectionLayout = DetailSectionConfiguration(rawValue: sectionIndex) else { return nil }
+            guard let sectionConfig = DetailSectionConfiguration(rawValue: sectionIndex) else { return nil }
             
-            let esimatedHeight = sectionLayout.estimatedHeight
+            let esimatedHeight = sectionConfig.estimatedHeight
             
             let layoutSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
@@ -198,16 +203,12 @@ extension ProductDetailViewController {
                 group: group
             )
             
-            section.contentInsets = sectionLayout.contentInsets
+            section.contentInsets = sectionConfig.contentInsets
             return section
         }
         
         return layout
     }
-}
-
-extension ProductDetailViewController: UICollectionViewDelegate {
-    
 }
 
 extension ProductDetailViewController: UICollectionViewDataSource {
@@ -216,18 +217,18 @@ extension ProductDetailViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let sectionLayout = DetailSectionConfiguration(rawValue: section) else { return 0 }
+        guard let sectionConfig = DetailSectionConfiguration(rawValue: section) else { return 0 }
         
-        return sectionLayout.itemCount
+        return sectionConfig.itemCount
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let sectionLayout = DetailSectionConfiguration(rawValue: indexPath.section) else {
+        guard let sectionConfig = DetailSectionConfiguration(rawValue: indexPath.section) else {
             return UICollectionViewCell()
         }
         
         var cell: UICollectionViewCell
-        switch sectionLayout {
+        switch sectionConfig {
             case .summary:
                 cell = configureProductSummaryCell(for: indexPath)
             case .description:

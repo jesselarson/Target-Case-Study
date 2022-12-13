@@ -28,6 +28,15 @@ enum SectionLayouts: Int, CaseIterable {
                 return 200.0
         }
     }
+    
+    var contentInsets: NSDirectionalEdgeInsets {
+        switch self {
+            case .summary:
+                return NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 20,trailing: 0)
+            case .description:
+                return NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0,trailing: 0)
+        }
+    }
 }
 
 final class ProductDetailViewController: UIViewController {
@@ -107,10 +116,10 @@ final class ProductDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        view.backgroundColor = UIColor.background
         navigationItem.backButtonDisplayMode = .minimal
         
-        view.addAndPinSubview(collectionView)
+        view.addSubview(collectionView)
         view.addSubview(addToCartView)
         
         // Add height to the Add to cart button overlay to account for devices with the home indicator
@@ -127,6 +136,11 @@ final class ProductDetailViewController: UIViewController {
         }
         
         NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: addToCartView.topAnchor),
+            
             addToCartView.heightAnchor.constraint(equalToConstant: height),
             addToCartView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             addToCartView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -183,7 +197,7 @@ extension ProductDetailViewController {
                 group: group
             )
             
-            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 20,trailing: 0)
+            section.contentInsets = sectionLayout.contentInsets
             return section
         }
         
@@ -253,9 +267,10 @@ extension ProductDetailViewController {
 
 private extension ProductSummaryItemView {
     func configure(for viewModel: ProductViewModel) {
-        let processor = RoundCornerImageProcessor(cornerRadius: 20)
-        productImage.kf.setImage(with: viewModel.imageUrl, options: [.processor(processor)])
+//        let processor = RoundCornerImageProcessor(cornerRadius: 20)
+//        productImage.kf.setImage(with: viewModel.imageUrl, options: [.processor(processor)])
         
+        productImage.kf.setImage(with: viewModel.imageUrl)
         titleLabel.text = viewModel.title
         salePriceLabel.text = viewModel.salePriceDisplayString
         regularPriceLabel.text = viewModel.regularPriceDisplayString

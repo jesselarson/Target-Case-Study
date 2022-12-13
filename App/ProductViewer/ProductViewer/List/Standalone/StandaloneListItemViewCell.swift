@@ -18,7 +18,8 @@ final class StandaloneListItemView: UIView {
         label.text = "$8.99"
         label.textColor = .targetRed
         label.font = .largeBold
-        label.numberOfLines = 0
+        label.numberOfLines = 1
+        label.setContentHuggingPriority(.defaultLow + 1, for: .horizontal)
         return label
     }()
     
@@ -28,7 +29,7 @@ final class StandaloneListItemView: UIView {
         label.text = "reg $9.99"
         label.textColor = .grayDarkest
         label.font = .small
-        label.numberOfLines = 0
+        label.numberOfLines = 1
         return label
     }()
 
@@ -38,7 +39,7 @@ final class StandaloneListItemView: UIView {
         label.text = "Online"
         label.textColor = .grayMedium
         label.font = .small
-        label.numberOfLines = 0
+        label.numberOfLines = 1
         return label
     }()
 
@@ -58,7 +59,8 @@ final class StandaloneListItemView: UIView {
         label.text = "In stock"
         label.textColor = .targetTextGreen
         label.font = .small
-        label.numberOfLines = 0
+        label.numberOfLines = 1
+        label.setContentHuggingPriority(.defaultLow + 1, for: .horizontal)
         return label
     }()
     
@@ -68,7 +70,7 @@ final class StandaloneListItemView: UIView {
         label.text = "in aisle J12"
         label.textColor = .grayMedium
         label.font = .small
-        label.numberOfLines = 0
+        label.numberOfLines = 1
         return label
     }()
     

@@ -14,6 +14,7 @@ final class ProductSummaryItemView: UIView {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 8
         return imageView
     }()
     
@@ -22,7 +23,7 @@ final class ProductSummaryItemView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Product title"
         label.textColor = .black
-        label.font = .medium
+        label.font = .Details.title
         label.numberOfLines = 0
         return label
     }()
@@ -33,7 +34,8 @@ final class ProductSummaryItemView: UIView {
         label.text = "$8.99"
         label.textColor = .targetRed
         label.font = .largeBold
-        label.numberOfLines = 0
+        label.numberOfLines = 1
+        label.setContentHuggingPriority(.defaultLow + 1, for: .horizontal)
         return label
     }()
     
@@ -43,7 +45,7 @@ final class ProductSummaryItemView: UIView {
         label.text = "reg $9.99"
         label.textColor = .grayDarkest
         label.font = .small
-        label.numberOfLines = 0
+        label.numberOfLines = 1
         return label
     }()
 
@@ -52,8 +54,8 @@ final class ProductSummaryItemView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Online"
         label.textColor = .grayMedium
-        label.font = .small
-        label.numberOfLines = 0
+        label.font = .Details.copy2
+        label.numberOfLines = 1
         return label
     }()
     
@@ -80,14 +82,14 @@ final class ProductSummaryItemView: UIView {
         
         // TODO: Do not use numbers for the constants
         NSLayoutConstraint.activate([
-            productImage.widthAnchor.constraint(equalTo: widthAnchor),
-            productImage.heightAnchor.constraint(equalTo: widthAnchor),
-            productImage.leadingAnchor.constraint(equalTo: leadingAnchor),
-            productImage.topAnchor.constraint(equalTo: topAnchor),
+            productImage.widthAnchor.constraint(equalTo: widthAnchor, constant: -36),
+            productImage.heightAnchor.constraint(equalTo: widthAnchor, constant: -36),
+            productImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 18),
+            productImage.topAnchor.constraint(equalTo: topAnchor, constant: 18),
             
-            titleLabel.topAnchor.constraint(equalTo: productImage.bottomAnchor, constant: 16),
-            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            titleLabel.topAnchor.constraint(equalTo: productImage.bottomAnchor, constant: 36),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 18),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -18),
             titleLabel.bottomAnchor.constraint(equalTo: salePriceLabel.topAnchor, constant: -15),
             
             salePriceLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),

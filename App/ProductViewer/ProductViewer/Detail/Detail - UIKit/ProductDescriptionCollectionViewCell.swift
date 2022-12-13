@@ -21,7 +21,7 @@ final class ProductDescriptionItemView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Product details"
         label.textColor = .black
-        label.font = .largeBold
+        label.font = .Details.emphasis
         label.numberOfLines = 0
         return label
     }()
@@ -31,7 +31,7 @@ final class ProductDescriptionItemView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Product title"
         label.textColor = .grayMedium
-        label.font = .medium
+        label.font = .Details.copy2
         label.numberOfLines = 0
         return label
     }()

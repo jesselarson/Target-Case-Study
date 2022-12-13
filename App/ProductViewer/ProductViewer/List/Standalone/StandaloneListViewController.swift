@@ -12,7 +12,7 @@ final class StandaloneListViewController: UIViewController {
         didSet {
             switch viewState {
                 case .loading:
-                    view.addAndPinSubviewToMargins(loadingView)
+                    view.addAndPinSubview(loadingView)
                     errorView.removeFromSuperview()
                 case .error:
                     view.addAndPinSubview(errorView)
@@ -27,14 +27,38 @@ final class StandaloneListViewController: UIViewController {
     private let loadingView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .blue
+        view.backgroundColor = .background
+        
+        // add ActivityIndicator
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        view.addAndCenterSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        
         return view
     }()
 
     private let errorView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .red
+        view.backgroundColor = .background
+        
+        // Add error message to view
+        let imageView = UIImageView(image: UIImage(systemName: "exclamationmark.triangle"))
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.tintColor = .grayMedium
+        imageView.contentMode = .scaleAspectFit
+        imageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
+        let messageLabel = UILabel()
+        messageLabel.translatesAutoresizingMaskIntoConstraints = false
+        messageLabel.text = "Unable to load content"
+        
+        let stackView = UIStackView(arrangedSubviews: [imageView, messageLabel])
+        stackView.axis = .vertical
+        stackView.distribution = .fillProportionally
+        
+        view.addAndCenterSubview(stackView)
+        
         return view
     }()
 
@@ -163,8 +187,7 @@ extension StandaloneListViewController: UICollectionViewDataSource {
 private extension StandaloneListViewController {
     @objc private func fetchDeals() {
         dealsListViewModel.fetchDeals(onSuccess: { [weak self] in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-//            DispatchQueue.main.async {
+            DispatchQueue.main.async {
                 self?.collectionView.reloadData()
                 self?.collectionView.refreshControl?.endRefreshing()
                 self?.viewState = .content

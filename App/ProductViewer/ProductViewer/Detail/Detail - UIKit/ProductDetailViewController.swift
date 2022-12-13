@@ -9,36 +9,6 @@
 import UIKit
 import Kingfisher
 
-enum SectionLayouts: Int, CaseIterable {
-    case summary
-    case description
-    
-    var itemCount: Int {
-        switch self {
-            case .summary, .description:
-                return 1
-        }
-    }
-    
-    var estimatedHeight: CGFloat {
-        switch self {
-            case .summary:
-                return 490.0
-            case .description:
-                return 200.0
-        }
-    }
-    
-    var contentInsets: NSDirectionalEdgeInsets {
-        switch self {
-            case .summary:
-                return NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 20,trailing: 0)
-            case .description:
-                return NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0,trailing: 0)
-        }
-    }
-}
-
 final class ProductDetailViewController: UIViewController {
     private let productViewModel: ProductViewModel
     
@@ -167,7 +137,7 @@ final class ProductDetailViewController: UIViewController {
 extension ProductDetailViewController {
     private func createLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
-            guard let sectionLayout = SectionLayouts(rawValue: sectionIndex) else { return nil }
+            guard let sectionLayout = DetailSectionConfiguration(rawValue: sectionIndex) else { return nil }
             
             let esimatedHeight = sectionLayout.estimatedHeight
             
@@ -211,17 +181,17 @@ extension ProductDetailViewController: UICollectionViewDelegate {
 
 extension ProductDetailViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return SectionLayouts.allCases.count
+        return DetailSectionConfiguration.allCases.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let sectionLayout = SectionLayouts(rawValue: section) else { return 0 }
+        guard let sectionLayout = DetailSectionConfiguration(rawValue: section) else { return 0 }
         
         return sectionLayout.itemCount
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let sectionLayout = SectionLayouts(rawValue: indexPath.section) else {
+        guard let sectionLayout = DetailSectionConfiguration(rawValue: indexPath.section) else {
             return UICollectionViewCell()
         }
         

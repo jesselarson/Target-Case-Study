@@ -27,6 +27,7 @@
 		F1434181294785E800D5B4DC /* ProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1434180294785E800D5B4DC /* ProductDetailViewController.swift */; };
 		F143418529479A5500D5B4DC /* ProductSummaryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F143418429479A5500D5B4DC /* ProductSummaryCollectionViewCell.swift */; };
 		F143418729479A6A00D5B4DC /* ProductDescriptionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F143418629479A6A00D5B4DC /* ProductDescriptionCollectionViewCell.swift */; };
+		F153C3BB2948508E00F0CC99 /* DetailSectionConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F153C3BA2948508E00F0CC99 /* DetailSectionConfiguration.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		F1434180294785E800D5B4DC /* ProductDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailViewController.swift; sourceTree = "<group>"; };
 		F143418429479A5500D5B4DC /* ProductSummaryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSummaryCollectionViewCell.swift; sourceTree = "<group>"; };
 		F143418629479A6A00D5B4DC /* ProductDescriptionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDescriptionCollectionViewCell.swift; sourceTree = "<group>"; };
+		F153C3BA2948508E00F0CC99 /* DetailSectionConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSectionConfiguration.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,6 +197,7 @@
 				F1434180294785E800D5B4DC /* ProductDetailViewController.swift */,
 				F143418429479A5500D5B4DC /* ProductSummaryCollectionViewCell.swift */,
 				F143418629479A6A00D5B4DC /* ProductDescriptionCollectionViewCell.swift */,
+				F153C3BA2948508E00F0CC99 /* DetailSectionConfiguration.swift */,
 			);
 			path = "Detail - UIKit";
 			sourceTree = "<group>";
@@ -323,6 +326,7 @@
 				F143415C2942E42800D5B4DC /* ProductList.swift in Sources */,
 				96D6F5FE280F47B0009338BF /* UIFont+Helpers.swift in Sources */,
 				5BEF08141D663304006BF0C0 /* StandaloneListViewController.swift in Sources */,
+				F153C3BB2948508E00F0CC99 /* DetailSectionConfiguration.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

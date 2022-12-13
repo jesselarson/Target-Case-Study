@@ -6,8 +6,8 @@
 //  Copyright © 2022 Target. All rights reserved.
 //
 
-import Foundation
 import UIKit
+import Kingfisher
 
 enum SectionLayouts: Int, CaseIterable {
     case image
@@ -21,25 +21,14 @@ enum SectionLayouts: Int, CaseIterable {
         }
     }
     
-    var height: CGFloat {
+    var estimatedHeight: CGFloat {
         switch self {
             case .image:
-                return 400.0
+                return 390.0
             case .summary:
                 return 100.0
             case .description:
                 return 200.0
-        }
-    }
-    
-    var backgroundColor: UIColor {
-        switch self {
-            case .image:
-                return .blue
-            case .summary:
-                return .yellow
-            case .description:
-                return .red
         }
     }
 }
@@ -52,12 +41,32 @@ final class ProductDetailViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .white
         
+        // Round the top corners
+        view.layer.cornerRadius = 12
+        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        
+        // Add a drop shadow to the top
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOpacity = 0.5
+        view.layer.shadowOffset = .zero
+        view.layer.shadowRadius = 5
+        
 //        // Add button
-//        let button = UIButton()
-//        button.titleLabel?.text = "Add to cart"
-//        button.backgroundColor = .targetRed
-//        button.
-//        view.addSubview(button)
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = .targetRed
+        button.setTitle("Add to cart", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = .largeBold
+        button.layer.cornerRadius = 8
+        
+        view.addSubview(button)
+        NSLayoutConstraint.activate([
+            button.heightAnchor.constraint(equalToConstant: 44),
+            button.topAnchor.constraint(equalTo: view.topAnchor, constant: 16),
+            button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+        ])
         
         return view
     }()
@@ -110,9 +119,27 @@ final class ProductDetailViewController: UIViewController {
         navigationItem.backButtonDisplayMode = .minimal
         
         view.addAndPinSubview(collectionView)
-        view.addAndPinSubview(addToCartView, edges: [.left, .right, .bottom])
-        let heightConstraint = addToCartView.heightAnchor.constraint(equalToConstant: 140)
-        view.addConstraints([heightConstraint])
+        view.addSubview(addToCartView)
+        
+        // Add height to the Add to cart button overlay to account for devices with the home indicator
+        var height = 76.0
+        let window = UIApplication
+            .shared
+            .connectedScenes
+            .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
+            .first { $0.isKeyWindow }
+        
+        if let window = window {
+            let bottomInset = window.safeAreaInsets.bottom
+            height += bottomInset
+        }
+        
+        NSLayoutConstraint.activate([
+            addToCartView.heightAnchor.constraint(equalToConstant: height),
+            addToCartView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            addToCartView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            addToCartView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
 
         collectionView.contentInset = .zero
         
@@ -136,7 +163,7 @@ extension ProductDetailViewController {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
             guard let sectionLayout = SectionLayouts(rawValue: sectionIndex) else { return nil }
             
-            let esimatedHeight = sectionLayout.height
+            let esimatedHeight = sectionLayout.estimatedHeight
             
             let layoutSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
@@ -201,8 +228,6 @@ extension ProductDetailViewController: UICollectionViewDataSource {
                 cell = configureProductDescriptionCell(for: indexPath)
         }
         
-        // TODO: do all configuration in the methods above
-        cell.backgroundColor = sectionLayout.backgroundColor
         return cell
     }
 }
@@ -217,7 +242,7 @@ extension ProductDetailViewController {
             return UICollectionViewCell()
         }
         
-        //configure
+        cell.itemView.configure(for: productViewModel)
         return cell
     }
     
@@ -245,6 +270,13 @@ extension ProductDetailViewController {
         
         cell.itemView.configure(for: productViewModel)
         return cell
+    }
+}
+
+private extension ProductImageItemView {
+    func configure(for viewModel: ProductViewModel) {
+        let processor = RoundCornerImageProcessor(cornerRadius: 20)
+        productImage.kf.setImage(with: viewModel.imageUrl, options: [.processor(processor)])
     }
 }
 

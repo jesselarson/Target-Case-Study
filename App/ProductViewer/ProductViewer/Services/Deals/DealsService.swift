@@ -9,7 +9,6 @@
 import Foundation
 
 struct DealsService: DealsServiceProtocol {
-    static var timesExecuted = 0
     private let dealsUrl = "https://api.target.com/mobile_case_study_deals/v1/deals"
     private var networkingService: Networking
     
@@ -17,46 +16,27 @@ struct DealsService: DealsServiceProtocol {
         self.networkingService = networkingService
     }
     
-    func fetchDeals(successCallback: @escaping ([Product]?) -> (), errorCallback: @escaping (_ error: Error) -> ()) {
-        let url = URL(string: dealsUrl)!
-        networkingService.retrieveData(url: url) { result in
-            switch result {
-                case .success((_, let data)):
-                    let productList = decodeProductList(from: data)
-                    successCallback(productList?.products)
-                case .failure(let error):
-                    let dealsError = dealsErrorForResponseError(error)
-                    errorCallback(dealsError)
-            }
+    func fetchDeals() async throws -> [Product] {
+        do {
+            let data = try await networkingService.fetchData(from: URL(string: dealsUrl)!)
+            let productList = try JSONDecoder().decode(ProductList.self, from: data)
+            return productList.products
+        } catch {
+            let dealsError = dealsErrorForResponseError(error)
+            throw dealsError
         }
     }
     
-    func fetchProduct(for id: Int, successCallback: @escaping (Product?) -> (), errorCallback: @escaping (Error) -> ()) {
-        let urlString = dealsUrl + "/\(id)"
-        let url = URL(string: urlString)!
-        
-        networkingService.retrieveData(url: url) { result in
-            switch result {
-                case .success((_, let data)):
-                    let product = decodeProductDetail(from: data)
-                    successCallback(product)
-                case .failure(let error):
-                    let dealsError = dealsErrorForResponseError(error)
-                    errorCallback(dealsError)
-            }
+    func fetchProduct(for id: Int) async throws -> Product {
+        do {
+            let url = URL(string: dealsUrl + "/\(id)")!
+            let data = try await networkingService.fetchData(from: url)
+            let product = try JSONDecoder().decode(Product.self, from: data)
+            return product
+        } catch {
+            let dealsError = dealsErrorForResponseError(error)
+            throw dealsError
         }
-        
-        DealsService.timesExecuted += 1
-    }
-    
-    func decodeProductList(from data: Data) -> ProductList? {
-        let productList = try? JSONDecoder().decode(ProductList.self, from: data)
-        return productList
-    }
-    
-    func decodeProductDetail(from data: Data) -> Product? {
-        let product = try? JSONDecoder().decode(Product.self, from: data)
-        return product
     }
     
     func dealsErrorForResponseError(_ error: Error) -> DealsServiceError {
@@ -65,9 +45,11 @@ struct DealsService: DealsServiceProtocol {
             switch networkingError {
                 case .unsuccessfulResponse(let response, let data):
                     dealsServiceError = isItemNotFoundResponse(response, data: data)
-                case .badUrl, .unknown:
+                case .unknown:
                     dealsServiceError = .unknown
             }
+        } else if let decodingError = error as? DecodingError {
+            dealsServiceError = .parsing(decodingError)
         }
         
         return dealsServiceError

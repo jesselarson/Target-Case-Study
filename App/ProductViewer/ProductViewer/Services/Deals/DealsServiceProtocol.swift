@@ -9,6 +9,6 @@
 import Foundation
 
 protocol DealsServiceProtocol {
-    func fetchDeals(successCallback: @escaping ([Product]?) -> (), errorCallback: @escaping (_ error: Error) -> ())
-    func fetchProduct(for id: Int, successCallback: @escaping (Product?) -> (), errorCallback: @escaping (_ error: Error) -> ())
+    func fetchDeals() async throws -> [Product]
+    func fetchProduct(for id: Int) async throws -> Product
 }

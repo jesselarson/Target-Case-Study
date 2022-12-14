@@ -11,5 +11,5 @@ import Foundation
 typealias DataTaskResult = Result<(HTTPURLResponse, Data), Error>
 
 protocol Networking {
-    func retrieveData(url: URL?, completion: @escaping (DataTaskResult) -> Void)
+    func fetchData(from url: URL) async throws -> Data
 }

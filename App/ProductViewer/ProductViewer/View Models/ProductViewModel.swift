@@ -62,20 +62,13 @@ class ProductViewModel {
 }
 
 extension ProductViewModel {
-    func fetchProductDetail(onSuccess: @escaping () -> (), onError: @escaping (_ error: Error) -> ()) {
-
-        dealsService.fetchProduct(for: id, successCallback: { [weak self] product in
-            guard let self = self else { return }
-            
-            // Only update the model if products is non-optional An optional result could mean a failure.
-            // If we had data before, we don't want to overwrite with bad data. Assumption is that prior
-            // data is still valid and we don't want to wipe it. Assumption needs to be revisited
-            if let product = product {
-                self.product = product
-            }
+    func fetchProductDetail(onSuccess: @escaping () -> (), onError: @escaping (_ error: Error) -> ()) async {
+        do {
+            let product = try await dealsService.fetchProduct(for: id)
+            self.product = product
             onSuccess()
-        }, errorCallback: { error in
+        } catch {
             onError(error)
-        })
+        }
     }
 }

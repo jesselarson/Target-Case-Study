@@ -128,17 +128,19 @@ private extension DealsListViewController {
     /// If a successful response, the collection view is reloaded to show the new deals
     /// If a failed response, an error screen is shown
     @objc private func fetchDeals() {
-        dealsListViewModel.fetchDeals(onSuccess: { [weak self] in
-            DispatchQueue.main.async {
-                self?.collectionView.reloadData()
-                self?.viewState = .content
-            }
-        }, onError: { [weak self] error in
-            DispatchQueue.main.async {
-                self?.errorView.setError(.unknown)
-                self?.viewState = .error
-            }
-        })
+        Task {
+            await dealsListViewModel.fetchDeals(onSuccess: { [weak self] in
+                DispatchQueue.main.async {
+                    self?.collectionView.reloadData()
+                    self?.viewState = .content
+                }
+            }, onError: { [weak self] error in
+                DispatchQueue.main.async {
+                    self?.errorView.setError(.unknown)
+                    self?.viewState = .error
+                }
+            })
+        }
     }
 }
 

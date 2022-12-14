@@ -138,33 +138,35 @@ extension ProductDetailViewController {
     /// If a failed response for an item not found, a specific error message is show. Otherwise, a generic
     /// error is displayed.
     func fetchDetails() {
-        productViewModel.fetchProductDetail(onSuccess: { [weak self] in
-
-            // On success, reload the collection view to display the latest content
-            //     and set the viewState to content to clear any loading or error screens
-            DispatchQueue.main.async {
-                self?.collectionView.reloadData()
-                self?.viewState = .content
-            }
-        }, onError: { [weak self] error in
-
-            // On error, show the appropriate message based upon the error returned
-            DispatchQueue.main.async {
-                var errorType: ErrorType = .unknown
-
-                if let apiError = error as? DealsServiceError {
-                    switch apiError {
-                        case .itemNotFound:
-                            errorType = .itemNotFound
-                        case .unknown, .parsing(_):
-                            errorType = .unknown
-                    }
+        Task {
+            await  productViewModel.fetchProductDetail(onSuccess: { [weak self] in
+                
+                // On success, reload the collection view to display the latest content
+                //     and set the viewState to content to clear any loading or error screens
+                DispatchQueue.main.async {
+                    self?.collectionView.reloadData()
+                    self?.viewState = .content
                 }
-
-                self?.errorView.setError(errorType)
-                self?.viewState = .error
-            }
-        })
+            }, onError: { [weak self] error in
+                
+                // On error, show the appropriate message based upon the error returned
+                DispatchQueue.main.async {
+                    var errorType: ErrorType = .unknown
+                    
+                    if let apiError = error as? DealsServiceError {
+                        switch apiError {
+                            case .itemNotFound:
+                                errorType = .itemNotFound
+                            case .unknown, .parsing(_):
+                                errorType = .unknown
+                        }
+                    }
+                    
+                    self?.errorView.setError(errorType)
+                    self?.viewState = .error
+                }
+            })
+        }
     }
 }
 

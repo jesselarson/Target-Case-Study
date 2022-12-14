@@ -1,5 +1,5 @@
 //
-//  APIClientError.swift
+//  NetworkingError.swift
 //  ProductViewer
 //
 //  Created by Jesse Larson on 12/13/22.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum APIClientError: Error {
+enum NetworkingError: Error {
     case badUrl
     case unsuccessfulResponse(statusCode: Int, code: String?, message: String?)
     case parsing(Error)

@@ -12,9 +12,11 @@ import UIKit
 class ProductViewModel {
     private var product: Product
     private let dealsUrl = "https://api.target.com/mobile_case_study_deals/v1/deals"
+    private var networkingService: Networking
     
-    init(product: Product) {
+    init(product: Product, networkingService: Networking = NetworkingService()) {
         self.product = product
+        self.networkingService = networkingService
     }
     
     var id: Int {
@@ -66,7 +68,7 @@ extension ProductViewModel {
         let urlString = dealsUrl + "/\(id)"
         let url = URL(string: urlString)!
         
-        APIClient().retrieveData(Product.self, url: url) { [weak self] result in
+        networkingService.retrieveData(Product.self, url: url) { [weak self] result in
             guard let self = self else { return }
             switch result {
                 case .success(let product):

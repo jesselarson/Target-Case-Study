@@ -1,5 +1,5 @@
 //
-//  APIClient.swift
+//  NetworkingService.swift
 //  ProductViewer
 //
 //  Created by Jesse Larson on 12/9/22.
@@ -8,11 +8,11 @@
 
 import Foundation
 
-struct APIClient {
+struct NetworkingService: Networking {
     func retrieveData<T: Decodable>(_ type: T.Type, url: URL?, completion: @escaping (Result<T, Error>) -> Void) {
         guard let url = url else {
             completion(
-                .failure(APIClientError.badUrl)
+                .failure(NetworkingError.badUrl)
             )
             return
         }
@@ -34,7 +34,7 @@ struct APIClient {
                     // Pass back an error specific to the item not being found
                     completion(
                         .failure(
-                            APIClientError.unsuccessfulResponse(
+                            NetworkingError.unsuccessfulResponse(
                                 statusCode: response.statusCode,
                                 code: errorResponse.code,
                                 message: errorResponse.message
@@ -45,7 +45,7 @@ struct APIClient {
                     // Could not parse ItemNotFoundResponse. Send the 404 back as an unsuccsesful response
                     completion(
                         .failure(
-                            APIClientError.unsuccessfulResponse(
+                            NetworkingError.unsuccessfulResponse(
                                 statusCode: response.statusCode,
                                 code: nil,
                                 message: nil
@@ -59,7 +59,7 @@ struct APIClient {
                 // Non-successful HTTP response code
                 completion(
                     .failure(
-                        APIClientError.unsuccessfulResponse(
+                        NetworkingError.unsuccessfulResponse(
                             statusCode: response.statusCode,
                             code: nil,
                             message: nil
@@ -73,7 +73,7 @@ struct APIClient {
                 // verify we have a valid response body
                 guard let data = data else {
                     completion(
-                        .failure(APIClientError.unknown)
+                        .failure(NetworkingError.unknown)
                     )
                     return
                 }
@@ -88,7 +88,7 @@ struct APIClient {
                 } catch {
                     completion(
                         .failure(
-                            APIClientError.parsing(error)
+                            NetworkingError.parsing(error)
                         )
                     )
                 }

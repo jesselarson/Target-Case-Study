@@ -152,7 +152,7 @@ extension ProductDetailViewController {
             DispatchQueue.main.async {
                 var errorType: ErrorType = .unknown
                 
-                if let apiError = error as? APIClientError {
+                if let apiError = error as? NetworkingError {
                     switch apiError {
                         case .unsuccessfulResponse(404, "ITEM_NOT_FOUND", _):
                             errorType = .itemNotFound

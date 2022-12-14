@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import UIKit
 
 class ProductViewModel {
     private var product: Product

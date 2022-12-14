@@ -1,0 +1,19 @@
+{
+  "id": 1,
+  "title": "TCL 32\" Class 3-Series HD Smart Roku TV",
+  "aisle": "g33",
+  "description": "The 3-Series TCL Roku TV puts all your entertainment favorites in one place, allowing seamless access to thousands of streaming channels. The simple, personalized home screen allows seamless access to thousands of streaming channels, plus your cable box, Blu-ray player, gaming console, and other devices without flipping through inputs or complicated menus. Easy Voice Control lets you control your entertainment using just your voice. The super-simple remote—with about half the number of buttons on a traditional TV remote—puts you in control of your favorite entertainment. Cord cutters can access free, over-the-air HD content with the Advanced Digital TV Tuner or watch live TV from popular cable-replacement services like YouTube TV, Sling, Hulu and more.",
+  "image_url": "https://appstorage.target.com/app-data/native-tha-images/2.jpg",
+  "regular_price": {
+    "amount_in_cents": 20999,
+    "currency_symbol": "$",
+    "display_string": "$209.99"
+  },
+  "sale_price": {
+    "amount_in_cents": 15999,
+    "currency_symbol": "$",
+    "display_string": "$159.99"
+  },
+  "fulfillment": "Online",
+  "availability": "In stock"
+}

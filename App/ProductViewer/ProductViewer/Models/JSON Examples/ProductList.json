@@ -1,0 +1,56 @@
+{
+  "products": [
+    {
+      "id": 0,
+      "title": "VIZIO D-Series 40\" Class 1080p Full-Array LED HD Smart TV",
+      "aisle": "b2",
+      "description": "fetch full product with details from https://api.target.com/mobile_case_study_deals/v1/deals/0",
+      "image_url": "https://appstorage.target.com/app-data/native-tha-images/1.jpg",
+      "regular_price": {
+        "amount_in_cents": 22999,
+        "currency_symbol": "$",
+        "display_string": "$229.99"
+      },
+      "fulfillment": "Online",
+      "availability": "In stock"
+    },
+    {
+      "id": 1,
+      "title": "TCL 32\" Class 3-Series HD Smart Roku TV",
+      "aisle": "g33",
+      "description": "fetch full product with details from https://api.target.com/mobile_case_study_deals/v1/deals/1",
+      "image_url": "https://appstorage.target.com/app-data/native-tha-images/2.jpg",
+      "regular_price": {
+        "amount_in_cents": 20999,
+        "currency_symbol": "$",
+        "display_string": "$209.99"
+      },
+      "sale_price": {
+        "amount_in_cents": 15999,
+        "currency_symbol": "$",
+        "display_string": "$159.99"
+      },
+      "fulfillment": "Online",
+      "availability": "In stock"
+    },
+    {
+      "id": 2,
+      "title": "Hisense 50\" Class- A6G Series 4K UHD Android Smart TV",
+      "aisle": "a1",
+      "description": "fetch full product with details from https://api.target.com/mobile_case_study_deals/v1/deals/2",
+      "image_url": "https://appstorage.target.com/app-data/native-tha-images/3.jpg",
+      "regular_price": {
+        "amount_in_cents": 38999,
+        "currency_symbol": "$",
+        "display_string": "$389.99"
+      },
+      "sale_price": {
+        "amount_in_cents": 31999,
+        "currency_symbol": "$",
+        "display_string": "$319.99"
+      },
+      "fulfillment": "Online",
+      "availability": "In stock"
+    }
+  ]
+}

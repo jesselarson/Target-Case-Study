@@ -12,7 +12,6 @@
 		5B259CD41D6630E0001D755F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5B259CD21D6630E0001D755F /* LaunchScreen.storyboard */; };
 		5BEF08141D663304006BF0C0 /* DealsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEF08131D663304006BF0C0 /* DealsListViewController.swift */; };
 		5BEF081F1D663598006BF0C0 /* DealsListItemViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEF081E1D663598006BF0C0 /* DealsListItemViewCell.swift */; };
-		9636D41A27FF77E700FE8106 /* ProductViewerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9636D41927FF77E700FE8106 /* ProductViewerTests.swift */; };
 		96D6F5F6280EE0C0009338BF /* Autolayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D6F5F5280EE0C0009338BF /* Autolayout.swift */; };
 		96D6F5FD280F47B0009338BF /* UIColor+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D6F5FB280F47B0009338BF /* UIColor+Helpers.swift */; };
 		96D6F5FE280F47B0009338BF /* UIFont+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D6F5FC280F47B0009338BF /* UIFont+Helpers.swift */; };
@@ -57,6 +56,10 @@
 		F1C5A031294A2DAF007DFC0A /* MockNetworkingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C5A030294A2DAF007DFC0A /* MockNetworkingService.swift */; };
 		F1C5A032294A3160007DFC0A /* DealsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C5A00D29498DE5007DFC0A /* DealsService.swift */; };
 		F1C5A033294A32AA007DFC0A /* NetworkingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F143415E29439CDC00D5B4DC /* NetworkingService.swift */; };
+		F1C5A036294A3F8C007DFC0A /* ProductListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C5A035294A3F8C007DFC0A /* ProductListViewModelTests.swift */; };
+		F1C5A038294A3F99007DFC0A /* ProductViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C5A037294A3F99007DFC0A /* ProductViewModelTests.swift */; };
+		F1C5A03A294A45C4007DFC0A /* ProductListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F14341612943BF3600D5B4DC /* ProductListViewModel.swift */; };
+		F1C5A03B294A45C7007DFC0A /* ProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F14341632943D4A900D5B4DC /* ProductViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,7 +81,6 @@
 		5BEF08131D663304006BF0C0 /* DealsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DealsListViewController.swift; sourceTree = "<group>"; };
 		5BEF081E1D663598006BF0C0 /* DealsListItemViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DealsListItemViewCell.swift; sourceTree = "<group>"; };
 		9636D41727FF77E700FE8106 /* ProductViewerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProductViewerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		9636D41927FF77E700FE8106 /* ProductViewerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewerTests.swift; sourceTree = "<group>"; };
 		96D6F5F5280EE0C0009338BF /* Autolayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Autolayout.swift; sourceTree = "<group>"; };
 		96D6F5FB280F47B0009338BF /* UIColor+Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Helpers.swift"; sourceTree = "<group>"; };
 		96D6F5FC280F47B0009338BF /* UIFont+Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+Helpers.swift"; sourceTree = "<group>"; };
@@ -112,6 +114,8 @@
 		F1C5A01D294A228B007DFC0A /* Bundle+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Helpers.swift"; sourceTree = "<group>"; };
 		F1C5A02E294A287D007DFC0A /* MockDealsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDealsService.swift; sourceTree = "<group>"; };
 		F1C5A030294A2DAF007DFC0A /* MockNetworkingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkingService.swift; sourceTree = "<group>"; };
+		F1C5A035294A3F8C007DFC0A /* ProductListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListViewModelTests.swift; sourceTree = "<group>"; };
+		F1C5A037294A3F99007DFC0A /* ProductViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewModelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,8 +201,9 @@
 			children = (
 				F1C5A023294A2553007DFC0A /* Mocks */,
 				F1C5A01C294A2255007DFC0A /* Helpers */,
-				9636D41927FF77E700FE8106 /* ProductViewerTests.swift */,
 				F1C5A013294A1197007DFC0A /* DealsServiceTests.swift */,
+				F1C5A035294A3F8C007DFC0A /* ProductListViewModelTests.swift */,
+				F1C5A037294A3F99007DFC0A /* ProductViewModelTests.swift */,
 			);
 			path = ProductViewerTests;
 			sourceTree = "<group>";
@@ -451,15 +456,18 @@
 				F1C5A033294A32AA007DFC0A /* NetworkingService.swift in Sources */,
 				F1C5A02D294A25C2007DFC0A /* ItemNotFoundResponse.swift in Sources */,
 				F1C5A032294A3160007DFC0A /* DealsService.swift in Sources */,
-				9636D41A27FF77E700FE8106 /* ProductViewerTests.swift in Sources */,
 				F1C5A028294A25AB007DFC0A /* DealsServiceProtocol.swift in Sources */,
+				F1C5A03B294A45C7007DFC0A /* ProductViewModel.swift in Sources */,
 				F1C5A029294A25AE007DFC0A /* Networking.swift in Sources */,
+				F1C5A036294A3F8C007DFC0A /* ProductListViewModelTests.swift in Sources */,
 				F1C5A01E294A228B007DFC0A /* Bundle+Helpers.swift in Sources */,
+				F1C5A038294A3F99007DFC0A /* ProductViewModelTests.swift in Sources */,
 				F1C5A02A294A25BA007DFC0A /* Price.swift in Sources */,
 				F1C5A014294A1197007DFC0A /* DealsServiceTests.swift in Sources */,
 				F1C5A02B294A25BC007DFC0A /* Product.swift in Sources */,
 				F1C5A02C294A25BF007DFC0A /* ProductList.swift in Sources */,
 				F1C5A02F294A287D007DFC0A /* MockDealsService.swift in Sources */,
+				F1C5A03A294A45C4007DFC0A /* ProductListViewModel.swift in Sources */,
 				F1C5A027294A25A8007DFC0A /* NetworkingError.swift in Sources */,
 				F1C5A031294A2DAF007DFC0A /* MockNetworkingService.swift in Sources */,
 				F1C5A026294A25A5007DFC0A /* DealsServiceError.swift in Sources */,

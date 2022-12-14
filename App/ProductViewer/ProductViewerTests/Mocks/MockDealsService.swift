@@ -10,10 +10,12 @@ import Foundation
 
 struct MockDealsService: DealsServiceProtocol {
     var deals: ProductList
+    var product: Product
     var error: Error?
 
-    init(deals: ProductList, error: Error? = nil) {
+    init(deals: ProductList, product: Product, error: Error? = nil) {
         self.deals = deals
+        self.product = product
         self.error = error
     }
     
@@ -28,10 +30,6 @@ struct MockDealsService: DealsServiceProtocol {
     func fetchProduct(for id: Int) async throws -> Product {
         if let error = error {
             throw error
-        }
-        
-        guard let product = deals.products.first else {
-            throw DealsServiceError.unknown
         }
         
         return product

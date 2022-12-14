@@ -1,4 +1,40 @@
 ## Target iOS Case Study
+
+### Solution
+#### Architecture
+This implementation is based around MVVM. Closures are used to bind model changes to the presentaiton in the views.
+
+#### UI
+The Deals list is presented as a collection view using compositional layout to present items as a single section list.
+
+The Product Detail page is a multi-section collection view, with styling separated out for each section. The detail view is extensible and allows for easy addition of new sections of content (e.g., a horizontal scrolling recommended products section). A basic section configuration object has been created to help facilitate the separation of section styling.
+
+Both the list and detail views have three distinc states: loading content, displaying content, or displaying an error. Because multiple conditions must be met for each of these states to present correctly, they are managed by a `ViewState` enumeration to prevent the UI from showing inconsistent and/or mixed states.
+
+#### Networking
+All networking is performed via Swift async/await and is broken up into two portions: A service that does the fetch and returns a `Data` object or throws an error, and a service which wraps these calls and parses the responses.
+
+Ideally, a wrapper service would be created for each new set of related endpoints. New networking capabilities (e.g., file upload/download) would go into the Networking service.
+
+#### Reusability
+Shared views have been split out into their own UIView subclasses (e.g., LoadingView, ErrorView, etc). The Add to cart button is also contained within its own UIView subclass for use elsewhere within the app as it grows.
+
+There is some overlap in the functionality of the list and detail view controllers, however, with only two instances it did not warrant combining these into a shared view controller. Future requirements would dictate the type of reuse we would gain from combining the controllers.
+
+#### Testability
+Unit tests have been written for the networking stack and the view models. Protocols were used to allow for easy mocking and dependency injection.
+
+#### Third party libraries
+This solution makes use of only one piece of open source code, KingFisher. This decision was made to allow for easy asynchronous image fetch for the list items and because the package supports caching of retrieved images out of the box with minimal setup needed. MIT license.
+
+Swift Package Manager was used to manage this dependency.
+
+#### Support for different screen sizes
+The UI is completely arranged using AutoLayout for all container views. For the most part, it behaves as expected on multiple screen sizes with two exceptions:
+1. The product thumbnail images on the list use two hardcoded values: one for modern phone screens (375pt or higher) and one for smaller screens. This allows the image to shrink enough to allow full content display within the list without truncating any content.
+2. The Add to Cart view honors the safe area. On phones with a home indicator, the height of the view is changed so the button may sit above the home indicator. On phones with a home button, the view is positioned at the bottom of the screen. The view height is dynamically controlled by the use of safeAreaInsets.
+
+### Description
 You have been given control over an iOS project that was originally a proof-of-concept project. The original developer of the project has since moved on to a new team,
 and Target has asked you to turn the project into an application that the company could release to the public.
 

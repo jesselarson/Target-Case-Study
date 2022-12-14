@@ -150,7 +150,7 @@ private extension DealsListViewController {
 
 extension DealsListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let productViewModel = dealsListViewModel.productAtIndex(indexPath) else {
+        guard let productViewModel = dealsListViewModel.productAtIndex(indexPath.row) else {
             return
         }
         
@@ -169,7 +169,7 @@ extension DealsListViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let productViewModel = dealsListViewModel.productAtIndex(indexPath),
+        guard let productViewModel = dealsListViewModel.productAtIndex(indexPath.row),
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: DealsListItemViewCell.reuseIdentifier,
                 for: indexPath

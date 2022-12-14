@@ -35,9 +35,9 @@ class ProductListViewModel {
         return products.count
     }
     
-    func productAtIndex(_ indexPath: IndexPath) -> ProductViewModel? {
-        if products.indices.contains(indexPath.row) {
-            return ProductViewModel(product: products[indexPath.row])
+    func productAtIndex(_ index: Int) -> ProductViewModel? {
+        if products.indices.contains(index) {
+            return ProductViewModel(product: products[index])
         } else {
             return nil
         }

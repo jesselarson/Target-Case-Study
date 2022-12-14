@@ -10,12 +10,11 @@ import Foundation
 
 class ProductViewModel {
     private var product: Product
-    private let dealsUrl = "https://api.target.com/mobile_case_study_deals/v1/deals"
-    private var networkingService: Networking
+    private var dealsService: DealsServiceProtocol
     
-    init(product: Product, networkingService: Networking = NetworkingService()) {
+    init(product: Product, dealsService: DealsServiceProtocol = DealsService()) {
         self.product = product
-        self.networkingService = networkingService
+        self.dealsService = dealsService
     }
     
     var id: Int {
@@ -64,18 +63,19 @@ class ProductViewModel {
 
 extension ProductViewModel {
     func fetchProductDetail(onSuccess: @escaping () -> (), onError: @escaping (_ error: Error) -> ()) {
-        let urlString = dealsUrl + "/\(id)"
-        let url = URL(string: urlString)!
-        
-        networkingService.retrieveData(Product.self, url: url) { [weak self] result in
+
+        dealsService.fetchProduct(for: id, successCallback: { [weak self] product in
             guard let self = self else { return }
-            switch result {
-                case .success(let product):
-                    self.product = product
-                    onSuccess()
-                case .failure(let error):
-                    onError(error)
+            
+            // Only update the model if products is non-optional An optional result could mean a failure.
+            // If we had data before, we don't want to overwrite with bad data. Assumption is that prior
+            // data is still valid and we don't want to wipe it. Assumption needs to be revisited
+            if let product = product {
+                self.product = product
             }
-        }
+            onSuccess()
+        }, errorCallback: { error in
+            onError(error)
+        })
     }
 }

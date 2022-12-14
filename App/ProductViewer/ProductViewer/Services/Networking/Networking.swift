@@ -8,6 +8,8 @@
 
 import Foundation
 
+typealias DataTaskResult = Result<(HTTPURLResponse, Data), Error>
+
 protocol Networking {
-    func retrieveData<T: Decodable>(_ type: T.Type, url: URL?, completion: @escaping (Result<T, Error>) -> Void)
+    func retrieveData(url: URL?, completion: @escaping (DataTaskResult) -> Void)
 }

@@ -8,20 +8,23 @@
 
 import Foundation
 
+protocol ProductListViewModelProtocol {
+    func fetchDeals(onSuccess: @escaping () -> (), onError: @escaping (_ error: Error) -> ())
+}
+
 class ProductListViewModel {
     private var products: [Product]
-    private let dealsUrl = "https://api.target.com/mobile_case_study_deals/v1/deals"
-    private var networkingService: Networking
+    private var dealsService: DealsServiceProtocol
     
-    init(networkingService: Networking = NetworkingService()) {
+    init(dealsService: DealsServiceProtocol = DealsService()) {
         products = [Product]()
-        self.networkingService = networkingService
+        self.dealsService = dealsService
     }
     
-    convenience init(products: [Product], networkingService: Networking = NetworkingService()) {
+    convenience init(products: [Product], dealsService: DealsServiceProtocol = DealsService()) {
         self.init()
         self.products = products
-        self.networkingService = networkingService
+        self.dealsService = dealsService
     }
     
     func numberOfSections() -> Int {
@@ -43,16 +46,19 @@ class ProductListViewModel {
 
 extension ProductListViewModel {
     func fetchDeals(onSuccess: @escaping () -> (), onError: @escaping (_ error: Error) -> ()) {
-        let url = URL(string: dealsUrl)!
-        networkingService.retrieveData(ProductList.self, url: url) { [weak self] result in
+
+        dealsService.fetchDeals { [weak self] products in
             guard let self = self else { return }
-            switch result {
-                case .success(let deals):
-                    self.products = deals.products
-                    onSuccess()
-                case .failure(let error):
-                    onError(error)
+            
+            // Only update the model if products is non-optional An optional result could mean a failure.
+            // If we had data before, we don't want to overwrite with bad data. Assumption is that prior
+            // data is still valid and we don't want to wipe it. Assumption needs to be revisited
+            if let products = products {
+                self.products = products
             }
+            onSuccess()
+        } errorCallback: { error in
+            onError(error)
         }
     }
 }

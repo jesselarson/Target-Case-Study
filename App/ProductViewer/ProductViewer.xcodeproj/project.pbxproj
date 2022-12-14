@@ -37,6 +37,9 @@
 		F1794C18294936B1009394F4 /* ProductSummaryItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1794C17294936B1009394F4 /* ProductSummaryItemView.swift */; };
 		F1794C1A294936DD009394F4 /* ProductDescriptionItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1794C19294936DD009394F4 /* ProductDescriptionItemView.swift */; };
 		F1794C1D294972BC009394F4 /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1794C1C294972BC009394F4 /* Networking.swift */; };
+		F1C5A00E29498DE5007DFC0A /* DealsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C5A00D29498DE5007DFC0A /* DealsService.swift */; };
+		F1C5A0102949A4E0007DFC0A /* DealsServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C5A00F2949A4E0007DFC0A /* DealsServiceProtocol.swift */; };
+		F1C5A0122949A4F8007DFC0A /* DealsServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C5A0112949A4F8007DFC0A /* DealsServiceError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +85,9 @@
 		F1794C17294936B1009394F4 /* ProductSummaryItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductSummaryItemView.swift; sourceTree = "<group>"; };
 		F1794C19294936DD009394F4 /* ProductDescriptionItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDescriptionItemView.swift; sourceTree = "<group>"; };
 		F1794C1C294972BC009394F4 /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
+		F1C5A00D29498DE5007DFC0A /* DealsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealsService.swift; sourceTree = "<group>"; };
+		F1C5A00F2949A4E0007DFC0A /* DealsServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealsServiceProtocol.swift; sourceTree = "<group>"; };
+		F1C5A0112949A4F8007DFC0A /* DealsServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealsServiceError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -233,6 +239,9 @@
 		F1C5A00C294985D0007DFC0A /* Deals */ = {
 			isa = PBXGroup;
 			children = (
+				F1C5A00D29498DE5007DFC0A /* DealsService.swift */,
+				F1C5A00F2949A4E0007DFC0A /* DealsServiceProtocol.swift */,
+				F1C5A0112949A4F8007DFC0A /* DealsServiceError.swift */,
 			);
 			path = Deals;
 			sourceTree = "<group>";
@@ -346,6 +355,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B259CCA1D6630E0001D755F /* AppDelegate.swift in Sources */,
+				F1C5A0102949A4E0007DFC0A /* DealsServiceProtocol.swift in Sources */,
 				F14341582942E34B00D5B4DC /* Price.swift in Sources */,
 				F1794C1D294972BC009394F4 /* Networking.swift in Sources */,
 				F14341622943BF3600D5B4DC /* ProductListViewModel.swift in Sources */,
@@ -364,6 +374,8 @@
 				F143415F29439CDC00D5B4DC /* NetworkingService.swift in Sources */,
 				5BEF081F1D663598006BF0C0 /* DealsListItemViewCell.swift in Sources */,
 				F1434181294785E800D5B4DC /* ProductDetailViewController.swift in Sources */,
+				F1C5A0122949A4F8007DFC0A /* DealsServiceError.swift in Sources */,
+				F1C5A00E29498DE5007DFC0A /* DealsService.swift in Sources */,
 				F153C3C22948C8F400F0CC99 /* LoadingView.swift in Sources */,
 				F153C3C62948C90700F0CC99 /* AddToCartView.swift in Sources */,
 				F143415C2942E42800D5B4DC /* ProductList.swift in Sources */,

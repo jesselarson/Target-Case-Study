@@ -10,7 +10,6 @@ import Foundation
 
 enum NetworkingError: Error {
     case badUrl
-    case unsuccessfulResponse(statusCode: Int, code: String?, message: String?)
-    case parsing(Error)
+    case unsuccessfulResponse(response: HTTPURLResponse, data: Data?)
     case unknown
 }

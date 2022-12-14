@@ -139,7 +139,7 @@ extension ProductDetailViewController {
     /// error is displayed.
     func fetchDetails() {
         productViewModel.fetchProductDetail(onSuccess: { [weak self] in
-            
+
             // On success, reload the collection view to display the latest content
             //     and set the viewState to content to clear any loading or error screens
             DispatchQueue.main.async {
@@ -147,20 +147,20 @@ extension ProductDetailViewController {
                 self?.viewState = .content
             }
         }, onError: { [weak self] error in
-            
-            // On error, show a specific error message for a 404 response with an ITEM_NOT_FOUND code in the reponse body
+
+            // On error, show the appropriate message based upon the error returned
             DispatchQueue.main.async {
                 var errorType: ErrorType = .unknown
-                
-                if let apiError = error as? NetworkingError {
+
+                if let apiError = error as? DealsServiceError {
                     switch apiError {
-                        case .unsuccessfulResponse(404, "ITEM_NOT_FOUND", _):
+                        case .itemNotFound:
                             errorType = .itemNotFound
-                        case .badUrl, .parsing(_), .unsuccessfulResponse(_, _, _), .unknown:
+                        case .unknown, .parsing(_):
                             errorType = .unknown
                     }
                 }
-                
+
                 self?.errorView.setError(errorType)
                 self?.viewState = .error
             }

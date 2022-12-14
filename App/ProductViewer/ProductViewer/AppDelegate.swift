@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         window = UIWindow(frame: UIScreen.main.bounds)
-        let navigationController = UINavigationController(rootViewController: StandaloneListViewController())
+        let navigationController = UINavigationController(rootViewController: DealsListViewController())
         
         // Global navBar styling - white background, custom back image, custom tint
         let navigationBarAppearance = UINavigationBarAppearance()

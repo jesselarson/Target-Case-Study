@@ -5,7 +5,7 @@
 import UIKit
 import Kingfisher
 
-final class StandaloneListViewController: UIViewController {
+final class DealsListViewController: UIViewController {
     
     /// View model representing the deals objects
     private var dealsListViewModel = ProductListViewModel()
@@ -101,8 +101,8 @@ final class StandaloneListViewController: UIViewController {
         
         
         collectionView.register(
-            StandaloneListItemViewCell.self,
-            forCellWithReuseIdentifier: StandaloneListItemViewCell.reuseIdentifier
+            DealsListItemViewCell.self,
+            forCellWithReuseIdentifier: DealsListItemViewCell.reuseIdentifier
         )
         
         return collectionView
@@ -123,7 +123,7 @@ final class StandaloneListViewController: UIViewController {
     }
 }
 
-private extension StandaloneListViewController {
+private extension DealsListViewController {
     /// Asks the view model to retrieve the full set of deals from the server
     /// If a successful response, the collection view is reloaded to show the new deals
     /// If a failed response, an error screen is shown
@@ -142,7 +142,7 @@ private extension StandaloneListViewController {
     }
 }
 
-extension StandaloneListViewController: UICollectionViewDelegate {
+extension DealsListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let productViewModel = dealsListViewModel.productAtIndex(indexPath) else {
             return
@@ -153,7 +153,7 @@ extension StandaloneListViewController: UICollectionViewDelegate {
     }
 }
 
-extension StandaloneListViewController: UICollectionViewDataSource {
+extension DealsListViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return dealsListViewModel.numberOfSections()
     }
@@ -165,9 +165,9 @@ extension StandaloneListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let productViewModel = dealsListViewModel.productAtIndex(indexPath),
             let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: StandaloneListItemViewCell.reuseIdentifier,
+                withReuseIdentifier: DealsListItemViewCell.reuseIdentifier,
                 for: indexPath
-            ) as? StandaloneListItemViewCell
+            ) as? DealsListItemViewCell
         else {
             return UICollectionViewCell()
         }
@@ -179,7 +179,7 @@ extension StandaloneListViewController: UICollectionViewDataSource {
 }
 
 // TODO: Fix hardcoded width/height values
-private extension StandaloneListItemView {
+private extension DealsListItemView {
     /// Maps the product view model data onto the list cell used to display the deal for that product.
     /// - parameter productViewModel: The view model for the product we want to display
     /// - parameter hideSeparator: A boolean that controls if a separator view is shown at the top of the cell

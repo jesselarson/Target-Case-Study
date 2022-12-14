@@ -1,5 +1,5 @@
 //
-//  StandaloneListItemView.swift
+//  DealsListItemView.swift
 //  ProductViewer
 //
 //  Created by Jesse Larson on 12/13/22.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class StandaloneListItemView: UIView {
+final class DealsListItemView: UIView {
     /// Thumbnail image of the product.
     ///
     /// This image will be lazy loaded once the list of deals has been retrieved

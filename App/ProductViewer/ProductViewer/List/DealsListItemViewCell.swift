@@ -5,12 +5,12 @@
 import UIKit
 import Kingfisher
 
-class StandaloneListItemViewCell: UICollectionViewCell {
+class DealsListItemViewCell: UICollectionViewCell {
     static let reuseIdentifier = "StandaloneListItemViewCell"
     
     //
-    lazy var listItemView: StandaloneListItemView = {
-        let view = StandaloneListItemView()
+    lazy var listItemView: DealsListItemView = {
+        let view = DealsListItemView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()

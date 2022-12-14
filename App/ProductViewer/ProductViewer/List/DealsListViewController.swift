@@ -94,11 +94,11 @@ final class DealsListViewController: UIViewController {
         collectionView.alwaysBounceVertical = true
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.contentInset = .zero
         
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(fetchDeals), for: .valueChanged)
         collectionView.refreshControl = refreshControl
-        
         
         collectionView.register(
             DealsListItemViewCell.self,
@@ -108,16 +108,20 @@ final class DealsListViewController: UIViewController {
         return collectionView
     }()
     
+    override func loadView() {
+        super.loadView()
+        
+        view.addAndPinSubview(collectionView)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         title = "Deals"
         navigationItem.backButtonDisplayMode = .minimal
-        
-        view.addAndPinSubview(collectionView)
 
-        collectionView.contentInset = .zero
-        
+        // Set the viewState to loading to present an activity indicator
+        // and kick off a request to retreive the deals list
         self.viewState = .loading
         fetchDeals()
     }

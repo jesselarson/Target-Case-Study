@@ -52,10 +52,10 @@ final class ProductDetailViewController: UIViewController {
         )
         
         collectionView.backgroundColor = UIColor.background
-        
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.alwaysBounceVertical = true
         collectionView.dataSource = self
+        collectionView.contentInset = .zero
         
         collectionView.register(
             ProductSummaryCollectionViewCell.self,
@@ -81,17 +81,14 @@ final class ProductDetailViewController: UIViewController {
         fatalError("NSCoder is not supported")
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func loadView() {
+        super.loadView()
         
-        title = "Details"
-        navigationItem.backButtonDisplayMode = .minimal
-        
-        view.backgroundColor = UIColor.background
         view.addSubview(collectionView)
         view.addSubview(addToCartView)
         
-        // Add height to the Add to cart button overlay to account for devices with the home indicator
+        // Start with the desired size of AddToCartView.
+        // Add height for devices without a home button to extend above the safe area
         var height = 76.0
         let window = UIApplication
             .shared
@@ -115,19 +112,26 @@ final class ProductDetailViewController: UIViewController {
             addToCartView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             addToCartView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        title = "Details"
+        navigationItem.backButtonDisplayMode = .minimal
+        
+        view.backgroundColor = UIColor.background
         
         addToCartView.action = { [weak self] in
             guard let self = self else { return }
             self.performAddToCartAction()
         }
-
-        collectionView.contentInset = .zero
         
-        // Finally, set the viewState to loading and kick off a request to retreive the product detail
+        // Set the viewState to loading to present an activity indicator
+        // and kick off a request to retreive the product detail
         viewState = .loading
         fetchDetails()
     }
-    
 }
 
 extension ProductDetailViewController {

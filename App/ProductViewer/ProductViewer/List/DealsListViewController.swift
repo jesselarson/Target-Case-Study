@@ -184,7 +184,6 @@ extension DealsListViewController: UICollectionViewDataSource {
     }
 }
 
-// TODO: Fix hardcoded width/height values
 private extension DealsListItemView {
     /// Maps the product view model data onto the list cell used to display the deal for that product.
     /// - parameter productViewModel: The view model for the product we want to display

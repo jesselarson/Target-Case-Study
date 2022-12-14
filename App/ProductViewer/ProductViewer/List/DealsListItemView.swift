@@ -113,7 +113,6 @@ final class DealsListItemView: UIView {
         addSubview(aisleLabel)
         addSubview(separator)
         
-        // TODO: Do not use numbers for the constants
         NSLayoutConstraint.activate([
             // Force a constant cell height
             heightAnchor.constraint(greaterThanOrEqualToConstant: 172),

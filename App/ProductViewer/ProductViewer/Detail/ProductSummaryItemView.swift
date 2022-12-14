@@ -9,6 +9,9 @@
 import UIKit
 
 final class ProductSummaryItemView: UIView {
+    /// Product image
+    ///
+    /// Retrieved asynchronously
     let productImage: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -18,6 +21,7 @@ final class ProductSummaryItemView: UIView {
         return imageView
     }()
     
+    /// Product title
     let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -28,6 +32,7 @@ final class ProductSummaryItemView: UIView {
         return label
     }()
     
+    /// Sale price of the product. May equal regular price is no salePrice is on the response
     let salePriceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -39,6 +44,7 @@ final class ProductSummaryItemView: UIView {
         return label
     }()
     
+    /// Non-sale price of the product
     let regularPriceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -49,6 +55,7 @@ final class ProductSummaryItemView: UIView {
         return label
     }()
 
+    /// Item fulfillment (e.g., online, in store, etc)
     let fulfillmentLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -59,6 +66,7 @@ final class ProductSummaryItemView: UIView {
         return label
     }()
     
+    /// 1pt separator at the bottom of the section
     private let bottomLine: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -80,7 +88,6 @@ final class ProductSummaryItemView: UIView {
         addSubview(fulfillmentLabel)
         addSubview(bottomLine)
         
-        // TODO: Do not use numbers for the constants
         NSLayoutConstraint.activate([
             productImage.widthAnchor.constraint(equalTo: widthAnchor, constant: -36),
             productImage.heightAnchor.constraint(equalTo: widthAnchor, constant: -36),

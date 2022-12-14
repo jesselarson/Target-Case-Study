@@ -9,6 +9,7 @@
 import UIKit
 
 final class ProductDescriptionItemView: UIView {
+    /// 1-pt separator at the top of the section
     private let topLine: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -16,6 +17,7 @@ final class ProductDescriptionItemView: UIView {
         return view
     }()
     
+    /// Product title
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -26,6 +28,7 @@ final class ProductDescriptionItemView: UIView {
         return label
     }()
     
+    /// Description of the product
     let descriptionLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -36,6 +39,7 @@ final class ProductDescriptionItemView: UIView {
         return label
     }()
     
+    /// 1-pt separator for the top of the section
     private let bottomLine: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -55,7 +59,6 @@ final class ProductDescriptionItemView: UIView {
         addSubview(descriptionLabel)
         addSubview(bottomLine)
         
-        // TODO: Do not use numbers for the constants
         NSLayoutConstraint.activate([
             topLine.heightAnchor.constraint(equalToConstant: 1),
             topLine.leadingAnchor.constraint(equalTo: leadingAnchor),

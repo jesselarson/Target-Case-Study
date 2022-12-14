@@ -12,7 +12,9 @@ The Product Detail page is a multi-section collection view, with styling separat
 Both the list and detail views have three distinc states: loading content, displaying content, or displaying an error. Because multiple conditions must be met for each of these states to present correctly, they are managed by a `ViewState` enumeration to prevent the UI from showing inconsistent and/or mixed states.
 
 #### Networking
-All networking is performed via Swift async/await and is broken up into two portions: A service that does the fetch and returns a `Data` object or throws an error, and a service which wraps these calls and parses the responses.
+All networking is performed via Swift async/await and thrown errors. The networking stack is broken up into two portions. The first is service that does the fetch and either returns a `Data` object for successful requests, or throws an error if the request cannot be completed. The second layer is a service which wraps this calls and is responsible for parsing the `Data` response and throwing any errors related to decoding.
+
+In this solution, a DealsService wrapper has been written to wrap the two endpoints used for fetching data for the deals list and the product details. This service is also responsible for throwing a specific error when a product detail item is not found.
 
 Ideally, a wrapper service would be created for each new set of related endpoints. New networking capabilities (e.g., file upload/download) would go into the Networking service.
 
@@ -33,6 +35,8 @@ Swift Package Manager was used to manage this dependency.
 The UI is completely arranged using AutoLayout for all container views. For the most part, it behaves as expected on multiple screen sizes with two exceptions:
 1. The product thumbnail images on the list use two hardcoded values: one for modern phone screens (375pt or higher) and one for smaller screens. This allows the image to shrink enough to allow full content display within the list without truncating any content.
 2. The Add to Cart view honors the safe area. On phones with a home indicator, the height of the view is changed so the button may sit above the home indicator. On phones with a home button, the view is positioned at the bottom of the screen. The view height is dynamically controlled by the use of safeAreaInsets.
+
+---
 
 ### Description
 You have been given control over an iOS project that was originally a proof-of-concept project. The original developer of the project has since moved on to a new team,

@@ -10,6 +10,6 @@ import Foundation
 
 enum DealsServiceError: Error {
     case itemNotFound
-    case parsing(Error)
+    case parsing
     case unknown
 }

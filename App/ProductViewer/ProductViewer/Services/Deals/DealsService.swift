@@ -48,8 +48,8 @@ struct DealsService: DealsServiceProtocol {
                 case .unknown:
                     dealsServiceError = .unknown
             }
-        } else if let decodingError = error as? DecodingError {
-            dealsServiceError = .parsing(decodingError)
+        } else if let _ = error as? DecodingError {
+            dealsServiceError = .parsing
         }
         
         return dealsServiceError

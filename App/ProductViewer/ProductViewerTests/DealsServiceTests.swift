@@ -10,13 +10,13 @@ import XCTest
 @testable import ProductViewer
 
 final class DealsServiceTests: XCTestCase {
-
+    
     private let dealsUrl = "https://api.target.com/mobile_case_study_deals/v1/deals"
-
+    
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-
+    
     func test_fetchDealsReturnsAllDeals() async throws {
         let dealsFilePath = Bundle.main.path(forResource: "ProductList", ofType: "json")
         let dealsJSON = try String(contentsOfFile: dealsFilePath!)
@@ -52,20 +52,27 @@ final class DealsServiceTests: XCTestCase {
         XCTAssertFalse(productId == product.id, "The product id of the returned product should not match the id used on retrieval")
     }
     
-    // Uncomment this test once XCTAssertThrowsError can be used with async functions. This is the proper way to test itemNotFound
-//    func test_fetchProductNotFoundThrowsItemNotFound() async throws {
-//        let itemNotFoundFilePath = Bundle.main.path(forResource: "ItemNotFoundResponse", ofType: "json")
-//        let itemNotFoundJSON = try String(contentsOfFile: itemNotFoundFilePath!)
-//
-//        let productId = 0
-//        let url = URL(string: dealsUrl + "/\(productId)")!
-//        let data = Data(itemNotFoundJSON.utf8)
-//        let response = HTTPURLResponse(url: url, statusCode: 404, httpVersion: nil, headerFields: nil)
-//        let error = NetworkingError.unsuccessfulResponse(response: response!, data: data)
-//
-//        let mockNetworkingService = MockNetworkingService(data: data,  error: error)
-//        let dealsService = DealsService(networkingService: mockNetworkingService)
-//
-//        // This doesn't work yet. XCTAssertThrowsError isn't available in an async context
-//        XCTAssertThrowsError(try await dealsService.fetchProduct(for: productId))
+    func test_fetchProductNotFoundThrowsItemNotFound() async throws {
+        let itemNotFoundFilePath = Bundle.main.path(forResource: "ItemNotFoundResponse", ofType: "json")
+        let itemNotFoundJSON = try String(contentsOfFile: itemNotFoundFilePath!)
+        
+        let productId = 0
+        let url = URL(string: dealsUrl + "/\(productId)")!
+        let data = Data(itemNotFoundJSON.utf8)
+        let response = HTTPURLResponse(url: url, statusCode: 404, httpVersion: nil, headerFields: nil)
+        let error = NetworkingError.unsuccessfulResponse(response: response!, data: data)
+        
+        let mockNetworkingService = MockNetworkingService(data: data,  error: error)
+        let dealsService = DealsService(networkingService: mockNetworkingService)
+        
+        // This doesn't work yet. XCTAssertThrowsError isn't available in an async context
+        //XCTAssertThrowsError(try await dealsService.fetchProduct(for: productId))
+        
+        do {
+            let _ = try await dealsService.fetchProduct(for: productId)
+            XCTFail("fetchProduct was successful for a missing id. Should have thrown DealsServiceError.itemNotFound")
+        } catch let error as DealsServiceError {
+            XCTAssertEqual(error, DealsServiceError.itemNotFound, "Error should have been DealsServiceError.itemNotFound")
+        }
     }
+}

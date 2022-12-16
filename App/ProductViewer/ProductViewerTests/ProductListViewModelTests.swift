@@ -22,40 +22,37 @@ final class ProductListViewModelTests: XCTestCase {
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
+    
+    func test_NumberOfItemsInSection() {
+        let mockDealsService = MockDealsService(deals: deals, product: product)
+        let viewModel = ProductListViewModel(products: deals.products, dealsService: mockDealsService)
+        
+        XCTAssertEqual(viewModel.numberOfItemsInSection(0), 3)
+    }
 
-    func test_ProductListModelExcecutesSuccessCompletionHandler() async throws {
+    func test_ProductListModelFetchDealsSuccessful() async throws {
         let mockDealsService = MockDealsService(deals: deals, product: product)
         let viewModel = ProductListViewModel(dealsService: mockDealsService)
         
-        var testString = "Before execution"
-        let testSuccess: () -> () = {
-            testString = "Success"
+        do {
+            try await viewModel.fetchDeals()
+            XCTAssertGreaterThan(viewModel.numberOfItemsInSection(0), 0)
+        } catch {
+            XCTFail("An error was thrown from fetchDeals. Error: \(error))")
         }
-        
-        let testError: (_ error: Error) -> () = { error in
-            testString = "Error"
-        }
-        
-        await viewModel.fetchDeals(onSuccess: testSuccess, onError: testError)
-        XCTAssertTrue(testString == "Success", "testString should be updated to the value inside the success completion handler")
     }
     
-    func test_ProductListModelExcecutesErrorCompletionHandler() async throws {
-        let dealsError = DealsServiceError.itemNotFound
+    func test_ProductListModelThrowsOnError() async throws {
+        let dealsError = DealsServiceError.unknown
         let mockDealsService = MockDealsService(deals: deals, product: product, error: dealsError)
         let viewModel = ProductListViewModel(dealsService: mockDealsService)
         
-        var testString = "Before execution"
-        let testSuccess: () -> () = {
-            testString = "Success"
+        do {
+            try await viewModel.fetchDeals()
+            XCTFail("fetchDeals should have thrown a DealsServiceError.unknown")
+        } catch let error as DealsServiceError {
+            XCTAssertEqual(error, dealsError, "Error should be DealsServiceError.unknown. Actual error: \(error.localizedDescription)")
         }
-        
-        let testError: (_ error: Error) -> () = { error in
-            testString = "Error"
-        }
-        
-        await viewModel.fetchDeals(onSuccess: testSuccess, onError: testError)
-        XCTAssertTrue(testString == "Error", "testString should be updated to the value inside the error completion handler")
     }
     
     func test_ProductListViewModelProductAtIndexSuccessful() {

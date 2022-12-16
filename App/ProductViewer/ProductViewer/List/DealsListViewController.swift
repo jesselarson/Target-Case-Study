@@ -133,17 +133,18 @@ private extension DealsListViewController {
     /// If a failed response, an error screen is shown
     @objc private func fetchDeals() {
         Task {
-            await dealsListViewModel.fetchDeals(onSuccess: { [weak self] in
+            do {
+                try await dealsListViewModel.fetchDeals()
                 DispatchQueue.main.async {
-                    self?.collectionView.reloadData()
-                    self?.viewState = .content
+                    self.collectionView.reloadData()
+                    self.viewState = .content
                 }
-            }, onError: { [weak self] error in
+            } catch {
                 DispatchQueue.main.async {
-                    self?.errorView.setError(.unknown)
-                    self?.viewState = .error
+                    self.errorView.setError(.unknown)
+                    self.viewState = .error
                 }
-            })
+            }
         }
     }
 }

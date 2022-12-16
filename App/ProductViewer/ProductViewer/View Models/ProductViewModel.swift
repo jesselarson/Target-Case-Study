@@ -62,13 +62,12 @@ class ProductViewModel {
 }
 
 extension ProductViewModel {
-    func fetchProductDetail(onSuccess: @escaping () -> (), onError: @escaping (_ error: Error) -> ()) async {
+    func fetchProductDetail() async throws {
         do {
             let product = try await dealsService.fetchProduct(for: id)
             self.product = product
-            onSuccess()
         } catch {
-            onError(error)
+            throw error
         }
     }
 }

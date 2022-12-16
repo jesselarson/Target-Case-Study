@@ -143,33 +143,19 @@ extension ProductDetailViewController {
     /// error is displayed.
     func fetchDetails() {
         Task {
-            await  productViewModel.fetchProductDetail(onSuccess: { [weak self] in
-                
-                // On success, reload the collection view to display the latest content
-                //     and set the viewState to content to clear any loading or error screens
+            do {
+                try await productViewModel.fetchProductDetail()
                 DispatchQueue.main.async {
-                    self?.collectionView.reloadData()
-                    self?.viewState = .content
+                    self.collectionView.reloadData()
+                    self.viewState = .content
                 }
-            }, onError: { [weak self] error in
-                
-                // On error, show the appropriate message based upon the error returned
-                DispatchQueue.main.async {
-                    var errorType: ErrorType = .unknown
-                    
-                    if let apiError = error as? DealsServiceError {
-                        switch apiError {
-                            case .itemNotFound:
-                                errorType = .itemNotFound
-                            case .unknown, .parsing(_):
-                                errorType = .unknown
-                        }
-                    }
-                    
-                    self?.errorView.setError(errorType)
-                    self?.viewState = .error
-                }
-            })
+            } catch DealsServiceError.itemNotFound {
+                self.errorView.setError(.itemNotFound)
+                self.viewState = .error
+            } catch {
+                self.errorView.setError(.unknown)
+                self.viewState = .error
+            }
         }
     }
 }
